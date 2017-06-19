@@ -10,6 +10,7 @@ public class AjaxJson {
 	private boolean success;
 	//private List<Map<String,Object>> list;
 	private List list;
+	private Object data = null;
 	
 	public String getMessage() {
 		return message;
@@ -29,6 +30,11 @@ public class AjaxJson {
 	public void setList(List list) {
 		this.list = list;
 	}
-	
+	public Object getData() {
+		return data;
+	}
+	public void setData(Object data) {
+		this.data = data;
+	}
 	
 }
