@@ -5,12 +5,66 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
+<style type="text/css">
+.form_content {
+	width: 250px;
+	height: 260px;
+	background-color: #fff;
+	position: absolute;
+	top: 100px;
+	left: 600px;
+	box-shadow: 1px 1px 32px #888881;
+}
+
+input {
+	width: 198px;
+	height: 30px;
+	background-color: #e1e1e1;
+	border-radius:4px;
+	border: 1px;
+	overflow: hidden;
+}
+button{
+	width: 100px;
+	height: 30px;
+	margin-top: 15px;
+	background-color: #fff;
+    border: none;
+    box-shadow: 0px 1px 3px #888881;
+}
+.form_content img{
+    width: 152px;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+}
+.form_content form {
+	position: absolute;
+	top: 75px;
+	text-align: center;
+}
+
+.form_content input {
+	margin-top: 8px;
+	text-align: center;
+}
+</style>
 </head>
 <body>
-<div>用户名：<input id="user" type="text"></div>
-<div>密码：<input id="password" type="password"></div>
-<button onclick="login()">登录</button>
-<p id="tips"></p>
+<div class="content">
+		<div class="form_content">
+			<img alt="" src="../img/login.png">
+			<form action="##">
+				<input id="loginName" type="text" name="loginName" placeholder="用户名">
+				<input id="password" type="password" name="password"
+					placeholder="密码"> <br/>
+				<button type="reset">重置</button>
+				<button onclick="login()">登陆</button>
+				<p id="tips" style="color: red;"></p>
+			</form>
+		</div>
+	</div>
+	
 </body>
 <script src="../js/jquery-1.8.0.min.js"></script>
 <script type="text/javascript">
