@@ -72,7 +72,7 @@ function login(){
 	$.ajax({
 		url:'http://localhost:8082/appservice/user/login.do',  //请求地址
 		type:'POST',  //请求方式
-		data:{"loginName":$("#user").val(),"password":$("#password").val()}, //请求参数
+		data:{"loginName":$("#loginName").val(),"password":$("#password").val()}, //请求参数
 		dataType:'json', //返回数据类型
 		success:function(data){  //成功回调函数
 			console.log(data);

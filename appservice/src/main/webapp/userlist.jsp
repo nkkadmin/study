@@ -21,10 +21,26 @@
 	</table>
 
 	<br />
-	<div id="showDiv"></div>
-
+	<div id="showDiv"></div><br/>
+	<div id="editDiv" style="display:none;">
+	  <form>
+		<p>真实姓名:<input id="userName" name="userName" type="text" ></p>
+	    <!--  <p>用户名:<input id="loginname" name="loginName" type="text" value="" ></p>-->
+		<p>用户名:<span id="loginname" name="loginName"></span></p>
+		<p>性别:<input id="sex" name="sex" type="text" value="" ></p>
+		<p>年龄:<input id="age" name="age" type="text" value="" ></p>
+		<input type="hidden" name="userId" id="userId">
+		<a href="javascript:;" onclick="editNewsadd();">提交</a>
+	  </form>	
+	  
+	</div>
+<!--  <iframe id="rfFrame" name="rfFrame" src="about:blank"
+		style="display: none;"></iframe>-->
+	  <p id="text"></p>
 	<script src="../js/jquery-1.8.0.min.js"></script>
 	<script>
+	window.onload = list();
+	function list(){
 		$.ajax({
 			url : 'http://localhost:8082/appservice/user/userList.do', //调用的地址
 			type : 'post', //请求方式
@@ -33,7 +49,12 @@
 				console.log(data);
 				$("tbody").html("");
 				for (var i = 0; i < data.list.length; i++) {
-					$("tbody").append("<tr><td>" + data.list[i].username + "</td><td>" + data.list[i].sex + "</td><td>" + data.list[i].age + "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].loginName + "');\">查询</a></td></tr>");
+					$("tbody").append("<tr><td>" + data.list[i].userName + "</td><td>" 
+							+ data.list[i].sex + "</td><td>" + data.list[i].age 
+							+ "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].userId 
+									+ "');\">查询</a></td><td><a href='javascript:;' onclick=\"editNews('" + data.list[i].userId + "')\">修改</a></td></tr>");
+					
+					
 				}
 			},
 			error : function(data) {
@@ -41,20 +62,22 @@
 			}
 		})
 
+	}
+		
 		//查询详细信息
 		function show(loginName) {
 			$.ajax({
-				url : 'http://localhost:8082/appservice/user/getUserInfoByLoginName.do', //url
+				url : 'http://localhost:8082/appservice/user/getUserInfoByUserId.do', //url
 				type : 'get', //请求方式
 				data : {
-					"loginName" : loginName
+					"userId" : loginName
 				}, //请求参数
 				dataType : 'json',
 				success : function(data) {
 					console.log(data);
 					$("#showDiv").html(" ");
 					if (data.data != null) {
-						$("#showDiv").append("<p>真实姓名:<span>" + data.data.username + "</span></p><p>性别:<span>" + data.data.sex + "</span></p><p>年龄:<span>" + data.data.age + "</span></p><p>用户名:<span>" + data.data.loginName + "</span></p>");
+						$("#showDiv").append("<p>真实姓名:<span>" + data.data.userName + "</span></p><p>性别:<span>" + data.data.sex + "</span></p><p>年龄:<span>" + data.data.age + "</span></p><p>用户名:<span>" + data.data.loginName + "</span></p>");
 					} else {
 						console.log("null");
 					}
@@ -62,6 +85,48 @@
 				},
 				error : function(data) {
 
+				}
+			})
+		}
+		
+		function editNews(userId){
+			$("#editDiv").css("display","block");
+			$.ajax({
+				url: 'http://localhost:8082/appservice/user/getUserInfoByUserId.do',
+				type: 'get',
+				data: {"userId": userId},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					$("#userName").val(data.data.userName);
+					$("#loginname").text(data.data.loginName);
+					$("#sex").val(data.data.sex);
+					$("#age").val(data.data.age);
+					$("#userId").val(data.data.userId);
+				},
+				error: function(data){
+					
+				}
+				
+			})
+		}
+		
+		//修改用户信息
+		function editNewsadd(){
+			//document.forms[0].target = "rfFrame";
+			$.ajax({
+				url: "http://localhost:8082/appservice/user/updateUserByUserId.do",
+				type: "post",
+				data: $("#editDiv form").serialize(),
+				dataType: "json",
+				success: function(data){
+					console.log(data);
+					$("#text").text(data.message);
+					
+					list();
+				},
+				error: function(data){
+					
 				}
 			})
 		}

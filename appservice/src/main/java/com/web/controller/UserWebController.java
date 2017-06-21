@@ -63,6 +63,7 @@ public class UserWebController {
 				message = "用户名、密码都不能为空";
 			} else {
 				User user = dataMap.get(loginName);
+				//bUservice.selectByPrimaryKey(userId);
 				if (user == null) {
 					isSuccess = false;
 					message = "不存在该用户";
@@ -153,7 +154,7 @@ public class UserWebController {
 				System.out.println(obj);
 				User user = dataMap.get(obj);
 				list.add(user);
-			}*/
+			}*/ 
 			List<User> list = bUservice.getAllUser();
 			ajax.setSuccess(isSuccess);
 			ajax.setList(list);
@@ -203,7 +204,7 @@ public class UserWebController {
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping(value = "/updateUserByUserId", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateUserByUserId", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson updateUserByLoginName(User user) {
 		AjaxJson ajax = new AjaxJson();
