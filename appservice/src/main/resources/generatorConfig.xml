@@ -28,8 +28,12 @@
 			targetProject="C:\study\GIT\study\appservice\src\main\java" type="XMLMAPPER" />
 		
 		<!-- 不生成Example相关的代码 -->
-		<table tableName="user" domainObjectName="User" enableCountByExample="false" 
-		enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" 
-		selectByExampleQueryId="false" />
+		<table tableName="role" domainObjectName="Role"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableUpdateByExample="false" enableSelectByExample="false" />
+		<table tableName="user" domainObjectName="User"
+			enableCountByExample="false" enableDeleteByExample="false"
+			enableUpdateByExample="false" enableSelectByExample="false" />
+				
 	</context>
 </generatorConfiguration>

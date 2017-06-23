@@ -33,7 +33,7 @@
 				console.log(data);
 				$("tbody").html("");
 				for (var i = 0; i < data.list.length; i++) {
-					$("tbody").append("<tr><td>" + data.list[i].username + "</td><td>" + data.list[i].sex + "</td><td>" + data.list[i].age + "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].loginName + "');\">查询</a></td></tr>");
+					$("tbody").append("<tr><td>" + data.list[i].username + "</td><td>" + data.list[i].sex + "</td><td>" + data.list[i].age + "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].id + "');\">查询</a></td></tr>");
 				}
 			},
 			error : function(data) {
@@ -42,22 +42,20 @@
 		})
 
 		//查询详细信息
-		function show(loginName) {
+		function show(userId) {
 			$.ajax({
-				url : 'http://localhost:8082/appservice/user/getUserInfoByLoginName.do', //url
+				url : 'http://localhost:8082/appservice/user/getUserInfoByUserId.do', //url
 				type : 'get', //请求方式
 				data : {
-					"loginName" : loginName
+					"userId" : userId
 				}, //请求参数
 				dataType : 'json',
 				success : function(data) {
 					console.log(data);
 					$("#showDiv").html(" ");
 					if (data.data != null) {
-						$("#showDiv").append("<p>真实姓名:<span>" + data.data.username + "</span></p><p>性别:<span>" + data.data.sex + "</span></p><p>年龄:<span>" + data.data.age + "</span></p><p>用户名:<span>" + data.data.loginName + "</span></p>");
-					} else {
-						console.log("null");
-					}
+						$("#showDiv").append("<p>真实姓名:<span>" + data.data.username + "</span></p><p>性别:<span>" + data.data.sex + "</span></p><p>年龄:<span>" + data.data.age + "</span></p><p>用户名:<span>" + data.data.loginname + "</span></p>");
+					} 
 
 				},
 				error : function(data) {

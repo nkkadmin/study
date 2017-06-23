@@ -1,7 +1,5 @@
 package com.base.service;
 
-import java.util.List;
-
 import com.base.model.User;
 
 /**
@@ -10,19 +8,12 @@ import com.base.model.User;
  * @author xsx
  *
  */
-public interface BUservice {
-
-	public int insert(User user);
-
-	public int insertSelective(User record);
-
-	public int updateByPrimaryKeySelective(User record);
-
-	public int updateByPrimaryKey(User record);
-
-	public User selectByPrimaryKey(Integer userId);
+public interface BUservice extends BBaseService<User> {
 	
-	public int deleteByPrimaryKey(Integer userId);
-	
-	public List<User> getAllUser();
+	/**
+	 * 根据用户名获取
+	 * @param loginName
+	 * @return
+	 */
+	public User quertByLoginName(String loginName);
 }

@@ -1,14 +1,14 @@
 package com.web.controller;
 
-import java.util.ArrayList;
+import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.app.model.AjaxJson;
 import com.base.model.User;
 import com.base.service.BUservice;
+import com.base.util.DateHelper;
 import com.base.util.StringHelper;
 import com.web.service.IUserService;
 
@@ -30,10 +31,7 @@ public class UserWebController {
 	@Resource
 	private BUservice bUservice;
 
-	/**
-	 * 鐢ㄤ簬瀛樺偍鐢ㄦ埛鏁版嵁
-	 */
-	private static Map<String, User> dataMap = new HashMap<>();
+	private static final String TABLENAME = "user";
 
 	@RequestMapping(value = "/loginUI", method = RequestMethod.GET)
 	public ModelAndView loginUI() {
@@ -62,12 +60,12 @@ public class UserWebController {
 				isSuccess = false;
 				message = "用户名、密码都不能为空";
 			} else {
-				User user = dataMap.get(loginName);
+				User user = userService.getUserByLoginName(loginName);
 				if (user == null) {
 					isSuccess = false;
 					message = "不存在该用户";
 				} else {
-					if (!user.getLoginName().equals(loginName)
+					if (!user.getLoginname().equals(loginName)
 							|| !user.getPassword().equals(password)) {
 						isSuccess = false;
 						message = "用户名密码错误";
@@ -79,6 +77,7 @@ public class UserWebController {
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常!");
+			e.printStackTrace();
 			return ajax;
 		}
 		return ajax;
@@ -100,27 +99,38 @@ public class UserWebController {
 		boolean isSuccess = true;
 		String message = "注册成功!";
 		try {
-			if (StringHelper.isEmpty(user.getLoginName())
+			if (StringHelper.isEmpty(user.getLoginname())
 					|| StringHelper.isEmpty(user.getPassword())
-					|| StringHelper.isEmpty(user.getUserName())
+					|| StringHelper.isEmpty(user.getUsername())
 					|| StringHelper.isEmpty(user.getSex())
 					|| user.getAge() == null
 					|| StringHelper.isEmpty(confirmPassword)) {
 				isSuccess = false;
 				message = "存在为空的数据，请确认后提交!";
-			} else if (!user.getPassword().equals(confirmPassword) || confirmPassword == null || confirmPassword.equals("")) {
+			} else if (!user.getPassword().equals(confirmPassword)
+					|| confirmPassword == null || confirmPassword.equals("")) {
 				isSuccess = false;
 				message = "两次密码不一致!";
 			} else {
-				User dataUser = dataMap.get(user.getLoginName());
-				if (dataUser != null) {
+				User userByLogin = bUservice.quertByLoginName(user
+						.getLoginname());
+				if (userByLogin != null) {
 					isSuccess = false;
 					message = "该用户名已经存在，请更换!";
 				} else {
-					//dataMap.put(user.getLoginName(), user);
-					if(bUservice.insert(user) != 1){
+					Map<String, Object> map = new HashMap<String, Object>();
+					user.setStatu("1");
+					user.setCreatetime(DateHelper.nowDate());
+					Field[] fields = user.getClass().getDeclaredFields();
+					for (Field field : fields) {
+						field.setAccessible(true);
+						if (field.get(user) != null) {
+							map.put(field.getName(), field.get(user));
+						}
+					}
+					if (bUservice.insertData(map, TABLENAME) != 1) {
 						isSuccess = false;
-						message = "注册失败!";
+						message = "修改失败!";
 					}
 				}
 			}
@@ -145,16 +155,7 @@ public class UserWebController {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
-			/*Set set = dataMap.keySet();
-			Iterator it = set.iterator();
-			List<User> list = new ArrayList<>();
-			while (it.hasNext()) {
-				Object obj = it.next();
-				System.out.println(obj);
-				User user = dataMap.get(obj);
-				list.add(user);
-			}*/
-			List<User> list = bUservice.getAllUser();
+			List<User> list = bUservice.queryForListAll(new User(), TABLENAME);
 			ajax.setSuccess(isSuccess);
 			ajax.setList(list);
 		} catch (Exception e) {
@@ -164,28 +165,29 @@ public class UserWebController {
 		}
 		return ajax;
 	}
-	
+
 	/**
 	 * 根据id获取用户信息
+	 * 
 	 * @param loginName
 	 * @return
 	 */
 	@RequestMapping(value = "/getUserInfoByUserId", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson getUserInfoByLoginName(Integer userId) {
+	public AjaxJson getUserInfoByUserId(Integer userId) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
-			if(userId == null){
+			if (userId == null) {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
-			}else{
-				//User user = dataMap.get(loginName);
-				User user = bUservice.selectByPrimaryKey(userId);
-				if(user == null){
+			} else {
+				User user = new User();
+				user = bUservice.queryByPK(user, TABLENAME, userId);
+				if (user == null) {
 					isSuccess = false;
 					ajax.setMessage("该用户不存在!");
-				}else{
+				} else {
 					ajax.setData(user);
 				}
 			}
@@ -197,42 +199,39 @@ public class UserWebController {
 		}
 		return ajax;
 	}
-	
+
 	/**
 	 * 修改用户信息
+	 * 
 	 * @param user
 	 * @return
 	 */
 	@RequestMapping(value = "/updateUserByUserId", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson updateUserByLoginName(User user) {
+	public AjaxJson updateUserByUserId(User user) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
+		String message = "修改成功";
 		try {
-			if(user.getUserId() == null){
+			if (user.getId() == null) {
 				isSuccess = false;
-				ajax.setMessage("参数不合法");
-			}else{
-				/*User dataUser = dataMap.get(user.getLoginName());
-				if(user == null){
+				message = "参数不合法";
+			} else {
+				Map<String, Object> map = new HashMap<String, Object>();
+				Field[] fields = user.getClass().getDeclaredFields();
+				for (Field field : fields) {
+					field.setAccessible(true);
+					if (field.get(user) != null) {
+						map.put(field.getName(), field.get(user));
+					}
+				}
+				if (bUservice.updateByPK(map, TABLENAME) != 1) {
 					isSuccess = false;
-					ajax.setMessage("璇ョ敤鎴蜂笉瀛樺湪!");
-				}else{
-					User updateUser = new User();
-					updateUser.setLoginName(user.getLoginName());
-					updateUser.setPassword(dataUser.getPassword());
-					updateUser.setUsername(user.getUsername() == null ? dataUser.getUsername() : user.getUsername());
-					updateUser.setSex(user.getSex() == null ? dataUser.getSex() : user.getSex());
-					updateUser.setAge(user.getAge() == null ? Integer.parseInt(dataUser.getSex()) : user.getAge());
-					dataMap.put(user.getLoginName(), updateUser);
-					ajax.setMessage("淇敼鎴愬姛!");
-				}*/
-				if(bUservice.updateByPrimaryKeySelective(user) != 1){
-					isSuccess = false;
-					ajax.setMessage("修改失败!");
+					message = "修改失败";
 				}
 			}
 			ajax.setSuccess(isSuccess);
+			ajax.setMessage(message);
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常");
@@ -240,9 +239,10 @@ public class UserWebController {
 		}
 		return ajax;
 	}
-	
+
 	/**
 	 * 删除用户
+	 * 
 	 * @param loginName
 	 * @return
 	 */
@@ -252,19 +252,11 @@ public class UserWebController {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
-			if(userId == null){
+			if (userId == null) {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
-			}else{
-				/*User dataUser = dataMap.get(loginName);
-				if(dataUser == null){
-					isSuccess = false;
-					ajax.setMessage("璇ョ敤鎴蜂笉瀛樺湪,涓嶈兘鍒犻櫎!");
-				}else{
-					dataMap.remove(loginName);
-					ajax.setMessage("鍒犻櫎鎴愬姛!");
-				}*/
-				if(bUservice.deleteByPrimaryKey(userId) != 1){
+			} else {
+				if (bUservice.deleteDataByPK(userId) != 1) {
 					isSuccess = false;
 					ajax.setMessage("删除失败!");
 				}
@@ -277,5 +269,5 @@ public class UserWebController {
 		}
 		return ajax;
 	}
-	
+
 }

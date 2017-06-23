@@ -55,12 +55,12 @@ button{
 		<div class="form_content">
 			<img alt="" src="../img/addUser.png">
 			<form action="##">
-				<input id="loginName" type="text" name="loginName" placeholder="用户名">
+				<input id="loginName" type="text" name="loginname" placeholder="用户名">
 				<input id="password" type="password" name="password"
 					placeholder="密码"> 
 				<input id="confirmPassword"
 					type="password" name="confirmPassword" placeholder="确认密码">
-				<input id="username" type="text" name="userName" placeholder="真实姓名">
+				<input id="username" type="text" name="username" placeholder="真实姓名">
 				<input id="sex" type="text" name="sex" placeholder="性别"> 
 				<input id="age" type="text" name="age" placeholder="年龄"><br/>
 				<button type="reset">重置</button>
