@@ -1,14 +1,12 @@
 package com.web.controller;
 
 import java.lang.reflect.Field;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,12 +58,7 @@ public class UserWebController {
 				isSuccess = false;
 				message = "用户名、密码都不能为空";
 			} else {
-<<<<<<< HEAD
 				User user = userService.getUserByLoginName(loginName);
-=======
-				User user = dataMap.get(loginName);
-				//bUservice.selectByPrimaryKey(userId);
->>>>>>> 256f8115b94fc8e6d7684d31dd14c7a0a40ceb6d
 				if (user == null) {
 					isSuccess = false;
 					message = "不存在该用户";
@@ -160,20 +153,7 @@ public class UserWebController {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
-<<<<<<< HEAD
 			List<User> list = bUservice.queryForListAll(new User(), TABLENAME);
-=======
-			/*Set set = dataMap.keySet();
-			Iterator it = set.iterator();
-			List<User> list = new ArrayList<>();
-			while (it.hasNext()) {
-				Object obj = it.next();
-				System.out.println(obj);
-				User user = dataMap.get(obj);
-				list.add(user);
-			}*/ 
-			List<User> list = bUservice.getAllUser();
->>>>>>> 256f8115b94fc8e6d7684d31dd14c7a0a40ceb6d
 			ajax.setSuccess(isSuccess);
 			ajax.setList(list);
 		} catch (Exception e) {
