@@ -32,15 +32,39 @@ public class RoleWebController {
 
 	private static final String TABLENAME = "role";
 
-
+	/**
+	 * 跳转到添加页面
+	 * @return
+	 */
 	@RequestMapping(value = "/addRoleUI", method = RequestMethod.GET)
-	public ModelAndView addUserUI() {
-		return new ModelAndView("addrole");
+	public ModelAndView addRoleUI() {
+		return new ModelAndView("role/roleedit");
+	}
+	
+	/**
+	 * 跳转到修改页面
+	 * @return
+	 */
+	@RequestMapping(value = "/editRoleUI", method = RequestMethod.GET)
+	public ModelAndView editRoleUI(Integer id) {
+		ModelAndView view =  new ModelAndView("role/roleedit");
+		Role role = new Role();
+		try {
+			role = bRoleService.queryByPK(role, TABLENAME, id);
+			view.addObject("role", role);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return view;
 	}
 
+	/**
+	 * 跳转到列表页面
+	 * @return
+	 */
 	@RequestMapping(value = "/roleListUI", method = RequestMethod.GET)
 	public ModelAndView userListUI() {
-		return new ModelAndView("rolelist");
+		return new ModelAndView("role/rolelist");
 	}
 
 
@@ -182,23 +206,21 @@ public class RoleWebController {
 	 */
 	@RequestMapping(value = "/deleteRoleByPK", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson deleteRoleByPK(Integer roleId) {
+	public AjaxJson deleteRoleByPK(Integer id) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
-			if (roleId == null) {
+			if (id == null) {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
 			} else {
-				if (bRoleService.deleteDataByPK(roleId) != 1) {
-					isSuccess = false;
-					ajax.setMessage("删除失败!");
-				}
+				bRoleService.deleteDataByPK(TABLENAME,id);
 			}
 			ajax.setSuccess(isSuccess);
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常");
+			e.printStackTrace();
 			return ajax;
 		}
 		return ajax;

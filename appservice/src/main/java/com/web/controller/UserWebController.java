@@ -238,15 +238,14 @@ public class UserWebController {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
 			} else {
-				if (bUservice.deleteDataByPK(userId) != 1) {
-					isSuccess = false;
-					ajax.setMessage("删除失败!");
-				}
+				bUservice.deleteDataByPK(TABLENAME,userId);
 			}
+			ajax.setMessage("删除成功");
 			ajax.setSuccess(isSuccess);
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常");
+			e.printStackTrace();
 			return ajax;
 		}
 		return ajax;

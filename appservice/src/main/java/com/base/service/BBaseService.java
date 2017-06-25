@@ -34,7 +34,7 @@ public interface BBaseService<T> {
 	 * @param pk
 	 * @return
 	 */
-	public int deleteDataByPK(Integer pk) throws Exception;
+	public void deleteDataByPK(String tableName,Integer pk) throws Exception;
 
 	/**
 	 * 修改数据

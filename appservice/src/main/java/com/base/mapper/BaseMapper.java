@@ -20,7 +20,7 @@ public interface BaseMapper {
 	 * @param pk
 	 * @return
 	 */
-    public int deleteDataByPK(@Param("paramMap") Map<String,Object> paramMap);
+    public void deleteDataByPK(@Param("paramMap") Map<String,Object> paramMap);
     
     /**
      * 修改数据

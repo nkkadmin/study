@@ -49,13 +49,14 @@ public class BBaseServiceImpl<T> implements BBaseService<T> {
 		return list;
 	}
 
-	public int deleteDataByPK(Integer pk) throws Exception {
+	public void deleteDataByPK(String tableName,Integer pk) throws Exception {
 		if (pk == null) {
 			throw new CustomException("存在为空的参数：【pk】：" + pk);
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("tableName", tableName);
 		map.put("id", pk);
-		return baseMappper.deleteDataByPK(map);
+		baseMappper.deleteDataByPK(map);
 	}
 
 	public int updateByPK(Map<String, Object> map, String tableName) throws Exception {

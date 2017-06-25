@@ -188,8 +188,7 @@
 		}
 
 		function deleteNews(userId) {
-			$
-					.ajax({
+			$.ajax({
 						url : "http://localhost:8082/appservice/user/deleteUserByUserId.do",
 						type : "get",
 						data : {
