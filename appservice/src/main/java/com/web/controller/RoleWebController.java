@@ -1,0 +1,207 @@
+package com.web.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.app.model.AjaxJson;
+import com.base.model.Role;
+import com.base.service.BRoleService;
+import com.base.util.BeanHelper;
+import com.base.util.DateHelper;
+import com.base.util.StringHelper;
+
+/**
+ * 角色管理
+ * @author xsx
+ *
+ */
+@Controller
+@RequestMapping("/role")
+public class RoleWebController {
+
+	@Resource
+	private BRoleService bRoleService;
+
+	private static final String TABLENAME = "role";
+
+
+	@RequestMapping(value = "/addRoleUI", method = RequestMethod.GET)
+	public ModelAndView addUserUI() {
+		return new ModelAndView("addrole");
+	}
+
+	@RequestMapping(value = "/roleListUI", method = RequestMethod.GET)
+	public ModelAndView userListUI() {
+		return new ModelAndView("rolelist");
+	}
+
+
+	/**
+	 * 添加角色
+	 * 
+	 * @param role
+	 * @return
+	 */
+	@RequestMapping(value = "/addRole", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson addUser(Role role) {
+		System.out.println("=====addRole=====");
+		AjaxJson ajax = new AjaxJson();
+		boolean isSuccess = true;
+		String message = "注册成功!";
+		try {
+			if (StringHelper.isEmpty(role.getName())) {
+				isSuccess = false;
+				message = "存在为空的数据，请确认后提交!";
+			} else {
+				Role isRole = bRoleService.getRoleByName(role.getName());
+				if (isRole != null) {
+					isSuccess = false;
+					message = "该角色名已经存在，请更换!";
+				} else {
+					role.setStatus("1");
+					role.setCreatetime(DateHelper.nowDate());
+					Map<String, Object> map = BeanHelper.objectToMap(role);
+					if (bRoleService.insertData(map, TABLENAME) != 1) {
+						isSuccess = false;
+						message = "添加失败!";
+					}
+				}
+			}
+			ajax.setSuccess(isSuccess);
+			ajax.setMessage(message);
+		} catch (Exception e) {
+			ajax.setSuccess(false);
+			ajax.setMessage("服务异常");
+			e.printStackTrace();
+			return ajax;
+		}
+		return ajax;
+	}
+
+	/**
+	 * 获取角色列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = "/queryRoleList", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson queryRoleList() {
+		AjaxJson ajax = new AjaxJson();
+		try {
+			List<Role> list = bRoleService.queryForListAll(new Role(), TABLENAME);
+			ajax.setSuccess(true);
+			ajax.setList(list);
+		} catch (Exception e) {
+			ajax.setSuccess(false);
+			ajax.setMessage("服务异常");
+			return ajax;
+		}
+		return ajax;
+	}
+
+	/**
+	 * 根据id获取角色信息
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping(value = "/getRoleByPK", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxJson getRoleByPK(Integer roleId) {
+		AjaxJson ajax = new AjaxJson();
+		boolean isSuccess = true;
+		try {
+			if (roleId == null) {
+				isSuccess = false;
+				ajax.setMessage("参数不合理!");
+			} else {
+				Role role = new Role();
+				role = bRoleService.queryByPK(role, TABLENAME, roleId);
+				if (role == null) {
+					isSuccess = false;
+					ajax.setMessage("该角色不存在，不能修改!");
+				} else {
+					ajax.setData(role);
+				}
+			}
+			ajax.setSuccess(isSuccess);
+		} catch (Exception e) {
+			ajax.setSuccess(false);
+			ajax.setMessage("服务异常");
+			return ajax;
+		}
+		return ajax;
+	}
+
+	/**
+	 * 修改角色信息
+	 * 
+	 * @param role
+	 * @return
+	 */
+	@RequestMapping(value = "/updateRoleByPK", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxJson updateRoleByPK(Role role) {
+		AjaxJson ajax = new AjaxJson();
+		boolean isSuccess = true;
+		String message = "修改成功";
+		try {
+			if (role.getId() == null) {
+				isSuccess = false;
+				message = "参数不合法";
+			} else {
+				Map<String, Object> map = BeanHelper.objectToMap(role);
+				if (bRoleService.updateByPK(map, TABLENAME) != 1) {
+					isSuccess = false;
+					message = "修改失败";
+				}
+			}
+			ajax.setSuccess(isSuccess);
+			ajax.setMessage(message);
+		} catch (Exception e) {
+			ajax.setSuccess(false);
+			ajax.setMessage("服务异常");
+			return ajax;
+		}
+		return ajax;
+	}
+
+	/**
+	 * 删除角色
+	 * 
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping(value = "/deleteRoleByPK", method = RequestMethod.GET)
+	@ResponseBody
+	public AjaxJson deleteRoleByPK(Integer roleId) {
+		AjaxJson ajax = new AjaxJson();
+		boolean isSuccess = true;
+		try {
+			if (roleId == null) {
+				isSuccess = false;
+				ajax.setMessage("参数不合理!");
+			} else {
+				if (bRoleService.deleteDataByPK(roleId) != 1) {
+					isSuccess = false;
+					ajax.setMessage("删除失败!");
+				}
+			}
+			ajax.setSuccess(isSuccess);
+		} catch (Exception e) {
+			ajax.setSuccess(false);
+			ajax.setMessage("服务异常");
+			return ajax;
+		}
+		return ajax;
+	}
+
+}

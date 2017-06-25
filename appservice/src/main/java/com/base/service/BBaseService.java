@@ -3,8 +3,12 @@ package com.base.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
+/**
+ * 公共service
+ * @author xsx
+ *
+ * @param <T>
+ */
 public interface BBaseService<T> {
 
 	/**
@@ -15,22 +19,22 @@ public interface BBaseService<T> {
 	 * @param pk
 	 * @return
 	 */
-	public T queryByPK(T t, String tableName, Integer pk);
+	public T queryByPK(T t, String tableName, Integer pk) throws Exception;
 
 	/**
 	 * 获取全部数据
 	 * 
 	 * @return
 	 */
-	public List<T> queryForListAll(T t, String tableName);
+	public List<T> queryForListAll(T t, String tableName) throws Exception;
 
 	/**
-	 * 根据唯一标示删除数据
+	 * 根据唯一标识删除数据
 	 * 
 	 * @param pk
 	 * @return
 	 */
-	public int deleteDataByPK(Integer pk);
+	public int deleteDataByPK(Integer pk) throws Exception;
 
 	/**
 	 * 修改数据
@@ -41,7 +45,7 @@ public interface BBaseService<T> {
 	 *            主鍵
 	 * @return
 	 */
-	public int updateByPK(Map<String, Object> map, String tableName);
+	public int updateByPK(Map<String, Object> map, String tableName) throws Exception;
 
 	/**
 	 * 添加数据
@@ -51,5 +55,5 @@ public interface BBaseService<T> {
 	 * @param tableName
 	 * @return
 	 */
-	public int insertData(Map<String, Object> paramMap, String tableName);
+	public int insertData(Map<String, Object> map, String tableName) throws Exception;
 }

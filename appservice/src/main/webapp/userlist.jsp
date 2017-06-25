@@ -48,11 +48,11 @@
 	<div id="editDiv" style="display: none;">
 		<form>
 			<p>
-				真实姓名:<input id="userName" name="userName" type="text">
+				真实姓名:<input id="username" name="username" type="text">
 			</p>
 			<!--  <p>用户名:<input id="loginname" name="loginName" type="text" value="" ></p>-->
 			<p>
-				用户名:<span id="loginname" name="loginName"></span>
+				用户名:<span id="loginname" name="loginname"></span>
 			</p>
 			<p>
 				性别:<input id="sex" name="sex" type="text" value="">
@@ -60,7 +60,7 @@
 			<p>
 				年龄:<input id="age" name="age" type="text" value="">
 			</p>
-			<input type="hidden" name="userId" id="userId"> <a
+			<input type="hidden" name="id" id="userId"> <a
 				href="javascript:;" onclick="editNewsadd();">提交</a>
 		</form>
 
@@ -84,11 +84,11 @@
 					$("tbody").html("");
 					for (var i = 0; i < data.list.length; i++) {
 
-						 $("tbody").append("<tr><td>" + username + "</td><td>" + sex + "</td><td>" + age + "</td></tr>"
-								+ "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].userId 
+						 $("tbody").append("<tr><td>" + data.list[i].username + "</td><td>" + data.list[i].sex + "</td><td>" + data.list[i].age + "</td>"
+								+ "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].id 
 										+ "');\">查询</a></td><td><a href='javascript:;' onclick=\"editNews('" 
-												+ data.list[i].userId + "')\">修改</a></td><td><a href='javascript:;' onclick=\"deleteNews('" 
-														+ data.list[i].userId + "')\">删除  </a></td></tr>"); 
+												+ data.list[i].id + "')\">修改</a></td><td><a href='javascript:;' onclick=\"deleteNews('" 
+														+ data.list[i].id + "')\">删除  </a></td></tr>"); 
 
 					}
 				},
@@ -152,11 +152,11 @@
 						dataType : 'json',
 						success : function(data) {
 							console.log(data);
-							$("#userName").val(data.data.userName);
-							$("#loginname").text(data.data.loginName);
+							$("#username").val(data.data.username);
+							$("#loginname").text(data.data.loginname);
 							$("#sex").val(data.data.sex);
 							$("#age").val(data.data.age);
-							$("#userId").val(data.data.userId);
+							$("#userId").val(data.data.id);
 						},
 						error : function(data) {
 
@@ -168,6 +168,7 @@
 		//修改用户信息
 		function editNewsadd() {
 			//document.forms[0].target = "rfFrame";
+			console.log($("#editDiv form").serialize());
 			$
 					.ajax({
 						url : "http://localhost:8082/appservice/user/updateUserByUserId.do",

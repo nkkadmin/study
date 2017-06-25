@@ -8,12 +8,12 @@ import com.base.model.User;
  * @author xsx
  *
  */
-public interface BUservice extends BBaseService<User> {
+public interface BUserService extends BBaseService<User> {
 	
 	/**
-	 * 根据用户名获取
+	 * 根据登录名查询
 	 * @param loginName
 	 * @return
 	 */
-	public User quertByLoginName(String loginName);
+	public User getUserByLoginName(String loginName);
 }

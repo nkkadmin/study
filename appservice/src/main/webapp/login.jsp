@@ -38,7 +38,7 @@ button{
     top: -6px;
     left: -6px;
 }
-.form_content form {
+.form_content .form {
 	position: absolute;
 	top: 75px;
 	text-align: center;
@@ -54,14 +54,14 @@ button{
 <div class="content">
 		<div class="form_content">
 			<img alt="" src="../img/login.png">
-			<form action="##">
+			<div class="form">
 				<input id="loginName" type="text" name="loginName" placeholder="用户名">
 				<input id="password" type="password" name="password"
 					placeholder="密码"> <br/>
 				<button type="reset">重置</button>
 				<button onclick="login()">登陆</button>
 				<p id="tips" style="color: red;"></p>
-			</form>
+			</div>
 		</div>
 	</div>
 	
