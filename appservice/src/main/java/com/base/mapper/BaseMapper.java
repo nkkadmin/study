@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.base.model.Page;
+
 public interface BaseMapper {
 
 	public Map<String,Object> queryByPK(@Param("paramMap") Map<String,Object> paramMap);
@@ -13,14 +15,14 @@ public interface BaseMapper {
 	 * 获取全部数据
 	 * @return
 	 */
-	public List<Map<String,Object>> queryForListAll(@Param("paramMap") Map<String,Object> paramMap);
+	public List<Map<String,Object>> queryForListAll(@Param("paramMap") Map<String,Object> paramMap,Page<?> page);
 	
 	/**
 	 * 根据唯一标示删除数据
 	 * @param pk
 	 * @return
 	 */
-    public int deleteDataByPK(@Param("paramMap") Map<String,Object> paramMap);
+    public void deleteDataByPK(@Param("paramMap") Map<String,Object> paramMap);
     
     /**
      * 修改数据

@@ -46,7 +46,8 @@
     	<property name="dataSource" ref="dataSource"/>
     	<property name="mapperLocations" value="classpath:com/*/mapper/*.xml"/>
     	<property name="configLocation" value="classpath:mybatis.xml" /> 
+    	<property name="plugins">
+    		<bean class="com.base.commons.MybatisSpringPageInterceptor"></bean>
+    	</property>
     </bean>
-      <!-- 自动扫描注解的bean -->  
-   <!--  <context:component-scan base-package="com.*" />   -->
 </beans>

@@ -1,14 +1,10 @@
 package com.web.controller;
 
-import java.lang.reflect.Field;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.model.Page;
 import com.base.model.User;
-import com.base.service.BUservice;
+import com.base.service.BUserService;
+import com.base.util.BeanHelper;
 import com.base.util.DateHelper;
 import com.base.util.StringHelper;
 import com.web.service.IUserService;
@@ -29,7 +27,7 @@ public class UserWebController {
 	@Resource
 	private IUserService userService;
 	@Resource
-	private BUservice bUservice;
+	private BUserService bUservice;
 
 	private static final String TABLENAME = "user";
 
@@ -60,7 +58,7 @@ public class UserWebController {
 				isSuccess = false;
 				message = "用户名、密码都不能为空";
 			} else {
-				User user = userService.getUserByLoginName(loginName);
+				User user = bUservice.getUserByLoginName(loginName);
 				if (user == null) {
 					isSuccess = false;
 					message = "不存在该用户";
@@ -94,7 +92,6 @@ public class UserWebController {
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson addUser(User user, String confirmPassword) {
-		System.out.println("=====addUser=====");
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		String message = "注册成功!";
@@ -112,25 +109,18 @@ public class UserWebController {
 				isSuccess = false;
 				message = "两次密码不一致!";
 			} else {
-				User userByLogin = bUservice.quertByLoginName(user
+				User userByLogin = bUservice.getUserByLoginName(user
 						.getLoginname());
 				if (userByLogin != null) {
 					isSuccess = false;
 					message = "该用户名已经存在，请更换!";
 				} else {
-					Map<String, Object> map = new HashMap<String, Object>();
 					user.setStatu("1");
 					user.setCreatetime(DateHelper.nowDate());
-					Field[] fields = user.getClass().getDeclaredFields();
-					for (Field field : fields) {
-						field.setAccessible(true);
-						if (field.get(user) != null) {
-							map.put(field.getName(), field.get(user));
-						}
-					}
+					Map<String, Object> map = BeanHelper.objectToMap(user);
 					if (bUservice.insertData(map, TABLENAME) != 1) {
 						isSuccess = false;
-						message = "修改失败!";
+						message = "添加失败!";
 					}
 				}
 			}
@@ -139,6 +129,7 @@ public class UserWebController {
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常");
+			e.printStackTrace();
 			return ajax;
 		}
 		return ajax;
@@ -151,19 +142,14 @@ public class UserWebController {
 	 */
 	@RequestMapping(value = "/userList", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson userList() {
-		AjaxJson ajax = new AjaxJson();
-		boolean isSuccess = true;
+	public Page<User> userList(Page<User> page) {
+		page.setPageNo(1);
 		try {
-			List<User> list = bUservice.queryForListAll(new User(), TABLENAME);
-			ajax.setSuccess(isSuccess);
-			ajax.setList(list);
+			page = bUservice.queryForListAllPage(new User(), TABLENAME, page);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
-			return ajax;
+			e.printStackTrace();
 		}
-		return ajax;
+		return page;
 	}
 
 	/**
@@ -217,14 +203,7 @@ public class UserWebController {
 				isSuccess = false;
 				message = "参数不合法";
 			} else {
-				Map<String, Object> map = new HashMap<String, Object>();
-				Field[] fields = user.getClass().getDeclaredFields();
-				for (Field field : fields) {
-					field.setAccessible(true);
-					if (field.get(user) != null) {
-						map.put(field.getName(), field.get(user));
-					}
-				}
+				Map<String, Object> map = BeanHelper.objectToMap(user);
 				if (bUservice.updateByPK(map, TABLENAME) != 1) {
 					isSuccess = false;
 					message = "修改失败";
@@ -256,15 +235,14 @@ public class UserWebController {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
 			} else {
-				if (bUservice.deleteDataByPK(userId) != 1) {
-					isSuccess = false;
-					ajax.setMessage("删除失败!");
-				}
+				bUservice.deleteDataByPK(TABLENAME, userId);
 			}
+			ajax.setMessage("删除成功");
 			ajax.setSuccess(isSuccess);
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常");
+			e.printStackTrace();
 			return ajax;
 		}
 		return ajax;

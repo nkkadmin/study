@@ -8,7 +8,7 @@
    </select>
    
    <select id="queryForListAll" resultType="java.util.Map">
-   	 select * from ${paramMap.tableName}
+   	 select * FROM ${paramMap.tableName}
    </select>
    
    <select id="deleteDataByPK">
