@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.controller.BaseController;
 import com.base.model.Page;
 import com.base.model.User;
 import com.base.service.BUserService;
@@ -21,7 +22,7 @@ import com.base.util.StringHelper;
 
 @Controller
 @RequestMapping("/user")
-public class UserWebController {
+public class UserWebController extends BaseController {
 
 	@Resource
 	private BUserService bUservice;
@@ -46,7 +47,6 @@ public class UserWebController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson login(String loginName, String password) {
-		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		String message = "登录成功";
 		try {
@@ -67,15 +67,11 @@ public class UserWebController {
 					}
 				}
 			}
-			ajax.setSuccess(isSuccess);
-			ajax.setMessage(message);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常!");
 			e.printStackTrace();
-			return ajax;
+			return responseInfo("服务异常!", false);
 		}
-		return ajax;
 	}
 
 	/**
@@ -89,7 +85,6 @@ public class UserWebController {
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson addUser(User user, String confirmPassword) {
-		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		String message = "注册成功!";
 		try {
@@ -121,15 +116,11 @@ public class UserWebController {
 					}
 				}
 			}
-			ajax.setSuccess(isSuccess);
-			ajax.setMessage(message);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
 			e.printStackTrace();
-			return ajax;
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
 
 	/**
@@ -158,29 +149,26 @@ public class UserWebController {
 	@RequestMapping(value = "/getUserInfoByUserId", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxJson getUserInfoByUserId(Integer userId) {
-		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
+		String message = "请求成功!";
+		User user = new User();
 		try {
 			if (userId == null) {
 				isSuccess = false;
-				ajax.setMessage("参数不合理!");
+				message = "参数不合理!";
 			} else {
-				User user = new User();
+
 				user = bUservice.queryByPK(user, TABLENAME, userId);
 				if (user == null) {
 					isSuccess = false;
-					ajax.setMessage("该用户不存在!");
-				} else {
-					ajax.setData(user);
+					message = "该用户不存在!";
 				}
 			}
-			ajax.setSuccess(isSuccess);
+			return responseInfo(message, isSuccess, user);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
 
 	/**
@@ -192,7 +180,6 @@ public class UserWebController {
 	@RequestMapping(value = "/updateUserByUserId", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson updateUserByUserId(User user) {
-		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		String message = "修改成功";
 		try {
@@ -206,14 +193,11 @@ public class UserWebController {
 					message = "修改失败";
 				}
 			}
-			ajax.setSuccess(isSuccess);
-			ajax.setMessage(message);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
 
 	/**
@@ -225,27 +209,23 @@ public class UserWebController {
 	@RequestMapping(value = "/deleteUserByUserId", method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxJson deleteUserByUserId(Integer userId) {
-		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
+		String message = "删除成功";
 		try {
 			if (userId == null) {
 				isSuccess = false;
-				ajax.setMessage("参数不合理!");
+				message = "参数不合理!";
 			} else {
-				Map<String,Object> map = new HashMap<String,Object>();
+				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", userId);
-				map.put("statu", "0");  //不做物理删除，做标记删除
+				map.put("statu", "0"); // 不做物理删除，做标记删除
 				bUservice.updateByPK(map, TABLENAME);
 			}
-			ajax.setMessage("删除成功");
-			ajax.setSuccess(isSuccess);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
 			e.printStackTrace();
-			return ajax;
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
 
 }
