@@ -12,62 +12,41 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.model.Menu;
 import com.base.model.Page;
-import com.base.model.Role;
-import com.base.service.BRoleService;
+import com.base.service.BMenuService;
 import com.base.util.BeanHelper;
-import com.base.util.DateHelper;
 import com.base.util.StringHelper;
 
+
 /**
- * 角色管理
+ * 菜单管理
  * @author xsx
  *
  */
 @Controller
-@RequestMapping("/role")
-public class RoleWebController {
+@RequestMapping("/menu")
+public class MenuWebController {
 
 	@Resource
-	private BRoleService bRoleService;
+	private BMenuService bMenuService;
 
-	private static final String TABLENAME = "role";
+	private static final String TABLENAME = "menu";
 
-	/**
-	 * 跳转到添加页面
-	 * @return
-	 */
-	@RequestMapping(value = "/addRoleUI", method = RequestMethod.GET)
-	public ModelAndView addRoleUI() {
-		return new ModelAndView("role/roleedit");
-	}
-	
-	/**
-	 * 跳转到修改页面
-	 * @return
-	 */
-	@RequestMapping(value = "/editRoleUI", method = RequestMethod.GET)
-	public ModelAndView editRoleUI(Integer id) {
-		ModelAndView view =  new ModelAndView("role/roleedit");
-		Role role = new Role();
-		try {
-			role = bRoleService.queryByPK(role, TABLENAME, id);
-			view.addObject("role", role);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return view;
+	@RequestMapping(value = "/menuUI", method = RequestMethod.GET)
+	public ModelAndView menuUI() {
+		return new ModelAndView("menu/menuList");
 	}
 
-	/**
-	 * 跳转到列表页面
-	 * @return
-	 */
-	@RequestMapping(value = "/roleListUI", method = RequestMethod.GET)
-	public ModelAndView userListUI() {
-		return new ModelAndView("role/rolelist");
+	@RequestMapping(value = "/addMenuUI", method = RequestMethod.GET)
+	public ModelAndView addUserUI() {
+		return new ModelAndView("menu/menuedit");
 	}
 
+	@RequestMapping(value = "/editMenuUI", method = RequestMethod.GET)
+	public ModelAndView editMenuUI() {
+		return new ModelAndView("menu/menuedit");
+	}
 
 	/**
 	 * 添加角色
@@ -75,26 +54,25 @@ public class RoleWebController {
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping(value = "/addRole", method = RequestMethod.POST)
+	@RequestMapping(value = "/addMenu", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson addUser(Role role) {
+	public AjaxJson addMenu(Menu menu) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		String message = "添加成功!";
 		try {
-			if (StringHelper.isEmpty(role.getName())) {
+			if (StringHelper.isEmpty(menu.getName()) || StringHelper.isEmpty(menu.getUrl())) {
 				isSuccess = false;
-				message = "角色名称不能为空!";
+				message = "菜单名称和菜单地址不能为空!";
 			} else {
-				Role isRole = bRoleService.getRoleByName(role.getName());
-				if (isRole != null) {
+				Menu isMenu = bMenuService.getMenuByName(menu.getName());
+				if (isMenu != null) {
 					isSuccess = false;
-					message = "该角色名已经存在，请更换!";
+					message = "该菜单名已经存在，请更换!";
 				} else {
-					role.setStatu("1");
-					role.setCreatetime(DateHelper.nowDate());
-					Map<String, Object> map = BeanHelper.objectToMap(role);
-					if (bRoleService.insertData(map, TABLENAME) != 1) {
+					menu.setStatu("1");
+					Map<String, Object> map = BeanHelper.objectToMap(menu);
+					if (bMenuService.insertData(map, TABLENAME) != 1) {
 						isSuccess = false;
 						message = "添加失败!";
 					}
@@ -116,11 +94,11 @@ public class RoleWebController {
 	 * 
 	 * @return
 	 */
-	@RequestMapping(value = "/queryRoleList", method = RequestMethod.POST)
+	@RequestMapping(value = "/queryMenuList", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<Role> queryRoleList(Page<Role> page) {
+	public Page<Menu> queryMenuList(Page<Menu> page) {
 		try {
-			page = bRoleService.queryForListAllPage(new Role(), TABLENAME, page);
+			page = bMenuService.queryForListAllPage(new Menu(), TABLENAME, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,23 +110,23 @@ public class RoleWebController {
 	 * @param roleId
 	 * @return
 	 */
-	@RequestMapping(value = "/getRoleByPK", method = RequestMethod.GET)
+	@RequestMapping(value = "/getMenuByPK", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson getRoleByPK(Integer roleId) {
+	public AjaxJson getMenuByPK(Integer id) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
-			if (roleId == null) {
+			if (id == null) {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
 			} else {
-				Role role = new Role();
-				role = bRoleService.queryByPK(role, TABLENAME, roleId);
-				if (role == null) {
+				Menu menu = new Menu();
+				menu = bMenuService.queryByPK(menu, TABLENAME, id);
+				if (menu == null) {
 					isSuccess = false;
-					ajax.setMessage("该角色不存在，不能修改!");
+					ajax.setMessage("该菜单不存在!");
 				} else {
-					ajax.setData(role);
+					ajax.setData(menu);
 				}
 			}
 			ajax.setSuccess(isSuccess);
@@ -166,19 +144,19 @@ public class RoleWebController {
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping(value = "/updateRoleByPK", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateMenuByPK", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson updateRoleByPK(Role role) {
+	public AjaxJson updateMenuByPK(Menu menu) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		String message = "修改成功";
 		try {
-			if (role.getId() == null) {
+			if (menu.getId() == null || StringHelper.isEmpty(menu.getName()) || StringHelper.isEmpty(menu.getUrl())) {
 				isSuccess = false;
 				message = "参数不合法";
 			} else {
-				Map<String, Object> map = BeanHelper.objectToMap(role);
-				if (bRoleService.updateByPK(map, TABLENAME) != 1) {
+				Map<String, Object> map = BeanHelper.objectToMap(menu);
+				if (bMenuService.updateByPK(map, TABLENAME) != 1) {
 					isSuccess = false;
 					message = "修改失败";
 				}
@@ -199,9 +177,9 @@ public class RoleWebController {
 	 * @param roleId
 	 * @return
 	 */
-	@RequestMapping(value = "/deleteRoleByPK", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteMenuByPK", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson deleteRoleByPK(Integer id) {
+	public AjaxJson deleteMenuByPK(Integer id) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
 		try {
@@ -212,7 +190,7 @@ public class RoleWebController {
 				Map<String,Object> map = new HashMap();
 				map.put("id", id);
 				map.put("statu", "0");  //不做物理删除，做标记删除
-				bRoleService.updateByPK(map, TABLENAME);
+				bMenuService.updateByPK(map, TABLENAME);
 			}
 			ajax.setSuccess(isSuccess);
 		} catch (Exception e) {

@@ -5,9 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import com.base.model.Role;
 
 public interface RoleMapper {
-	
 	/**
-	 * 根据name获取role
+	 * 根据角色名称获取role
 	 * @param roleName
 	 * @return
 	 */

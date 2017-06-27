@@ -1,6 +1,6 @@
 package com.web.controller;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -18,14 +18,11 @@ import com.base.service.BUserService;
 import com.base.util.BeanHelper;
 import com.base.util.DateHelper;
 import com.base.util.StringHelper;
-import com.web.service.IUserService;
 
 @Controller
 @RequestMapping("/user")
 public class UserWebController {
 
-	@Resource
-	private IUserService userService;
 	@Resource
 	private BUserService bUservice;
 
@@ -235,7 +232,10 @@ public class UserWebController {
 				isSuccess = false;
 				ajax.setMessage("参数不合理!");
 			} else {
-				bUservice.deleteDataByPK(TABLENAME, userId);
+				Map<String,Object> map = new HashMap<String,Object>();
+				map.put("id", userId);
+				map.put("statu", "0");  //不做物理删除，做标记删除
+				bUservice.updateByPK(map, TABLENAME);
 			}
 			ajax.setMessage("删除成功");
 			ajax.setSuccess(isSuccess);
