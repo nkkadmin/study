@@ -14,6 +14,8 @@ table {
 td {
 	border:1px solid #ddd;
 }
+#page li{list-style:none;display:inline-block;padding:3px 5px;border:1px solid #ddd;}
+#page li.active {color:#025098;}
 </style>
 </head>
 <body>
@@ -41,25 +43,31 @@ td {
 		</tbody>
 	</table>
 </div>
+<ul id="page"></ul>
 <div id="tips"></div>
 <script type="text/javascript" src="../js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="../js/page.js"></script>
 <script type="text/javascript">
-window.onload=listShow();
+window.onload=listShow(1);
 //展示列表
-function listShow(){
+function listShow(pageNo){
 	$.ajax({
 		url: "http://localhost:8082/appservice/role/queryRoleList.do",
 		type: "post",
+		data : {"pageNo":pageNo},
 		dataype: "json",
 		success: function(data){
 			console.log(data);
 			$("tbody").html("");
-			for(var i = 0;i < data.list.length;i++){
-				$("tbody").append("<tr><td id='name'>" + data.list[i].name 
-						+ "</td><td id='commont'>" + data.list[i].commont 
-						+ "</td><td id='createtime'>" + data.list[i].createtime 
-						+ "</td><td><a href='http://localhost:8082/appservice/role/editRoleUI.do?id="+data.list[i].id+"'>修改</a> | <a onclick=\"deleteList('" + data.list[i].id + "')\" href='javascript:;'>删除</a></td><tr>");
+			for(var i = 0;i < data.rows.length;i++){
+				$("tbody").append("<tr><td id='name'>" + data.rows[i].name 
+						+ "</td><td id='commont'>" + data.rows[i].commont 
+						+ "</td><td id='createtime'>" + data.rows[i].createtime 
+						+ "</td><td><a href='http://localhost:8082/appservice/role/editRoleUI.do?id="+data.rows[i].id+"'>修改</a> | <a onclick=\"deleteList('" + data.rows[i].id + "')\" href='javascript:;'>删除</a></td><tr>");
 			}
+			
+			//分页
+			pageShow('listShow',data);
 		},
 		error: function(data){
 			console.log("error");
