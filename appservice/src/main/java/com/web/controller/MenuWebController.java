@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.app.model.AjaxJson;
 import com.base.model.Menu;
 import com.base.model.Page;
+import com.base.model.Role;
 import com.base.service.BMenuService;
 import com.base.util.BeanHelper;
 import com.base.util.StringHelper;
@@ -35,7 +36,7 @@ public class MenuWebController {
 
 	@RequestMapping(value = "/menuUI", method = RequestMethod.GET)
 	public ModelAndView menuUI() {
-		return new ModelAndView("menu/menuList");
+		return new ModelAndView("menu/menulist");
 	}
 
 	@RequestMapping(value = "/addMenuUI", method = RequestMethod.GET)
@@ -44,8 +45,16 @@ public class MenuWebController {
 	}
 
 	@RequestMapping(value = "/editMenuUI", method = RequestMethod.GET)
-	public ModelAndView editMenuUI() {
-		return new ModelAndView("menu/menuedit");
+	public ModelAndView editMenuUI(Integer id) {
+		ModelAndView view =  new ModelAndView("menu/menuedit");
+		Menu menu = new Menu();
+		try {
+			menu = bMenuService.queryByPK(menu, TABLENAME, id);
+			view.addObject("menu", menu);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return view;
 	}
 
 	/**
@@ -166,6 +175,7 @@ public class MenuWebController {
 		} catch (Exception e) {
 			ajax.setSuccess(false);
 			ajax.setMessage("服务异常");
+			e.printStackTrace();
 			return ajax;
 		}
 		return ajax;
