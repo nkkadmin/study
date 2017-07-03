@@ -1,4 +1,4 @@
-package com.test.controller;
+package com.test.web.controller;
 
 import javax.servlet.ServletContext;
 
