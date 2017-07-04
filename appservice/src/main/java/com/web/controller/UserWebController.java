@@ -131,7 +131,7 @@ public class UserWebController extends BaseController {
 	@RequestMapping(value = "/userList", method = RequestMethod.POST)
 	@ResponseBody
 	public Page<User> userList(Page<User> page) {
-		page.setPageNo(1);
+		page.setPageNo(page.getPageNo() == 0 ? 1 : page.getPageNo());
 		try {
 			page = bUservice.queryForListAllPage(new User(), TABLENAME, page);
 		} catch (Exception e) {

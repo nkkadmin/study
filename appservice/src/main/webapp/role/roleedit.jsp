@@ -34,7 +34,7 @@ function addList(){
 		url: "http://localhost:8082/appservice/role/addRole.do",
 		type: "post",
 		data : $("form").serialize(),
-		dataype: "json",
+		dataType: "json",
 		success: function(data){
 			console.log(data);
 			$("#tips").text(data.message);

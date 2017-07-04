@@ -5,6 +5,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
+<style>
+#page li{list-style:none;display:inline-block;padding:3px 5px;border:1px solid #ddd;}
+#page li.active {color:#025098;}
+</style>
 </head>
 <body>
 	<table>
@@ -28,6 +32,7 @@
 		<tbody>
 		</tbody>
 	</table>
+	<ul id="page"></ul>
 
 	<br />
 	<div id="showDiv" style="display: none;">
@@ -72,25 +77,30 @@
 		style="display: none;"></iframe>-->
 	<p id="text"></p>
 	<script src="../js/jquery-1.8.0.min.js"></script>
+	<script type="text/javascript" src="../js/page.js"></script>
 	<script>
-		window.onload = list();
-		function list() {
+		window.onload = list(1);
+		function list(pageNo) {
 			$.ajax({
 				url : 'http://localhost:8082/appservice/user/userList.do', //调用的地址
 				type : 'post', //请求方式
+				data : {'pageNo' : pageNo}, 
 				dataType : 'json', //请求的数据格式
 				success : function(data) {
 					console.log(data);
 					$("tbody").html("");
-					for (var i = 0; i < data.list.length; i++) {
+					for (var i = 0; i < data.rows.length; i++) {
 
-						 $("tbody").append("<tr><td>" + data.list[i].username + "</td><td>" + data.list[i].sex + "</td><td>" + data.list[i].age + "</td>"
-								+ "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.list[i].id 
+						 $("tbody").append("<tr><td>" + data.rows[i].username + "</td><td>" + data.rows[i].sex + "</td><td>" + data.rows[i].age + "</td>"
+								+ "</td><td><a class='clickk' href='javascript:;' onclick=\"show('" + data.rows[i].id 
 										+ "');\">查询</a></td><td><a href='javascript:;' onclick=\"editNews('" 
-												+ data.list[i].id + "')\">修改</a></td><td><a href='javascript:;' onclick=\"deleteNews('" 
-														+ data.list[i].id + "')\">删除  </a></td></tr>"); 
+												+ data.rows[i].id + "')\">修改</a></td><td><a href='javascript:;' onclick=\"deleteNews('" 
+														+ data.rows[i].id + "')\">删除  </a></td></tr>"); 
 
 					}
+					
+					//分页
+					pageShow('list',data);
 				},
 				error : function(data) {
 
