@@ -24,6 +24,8 @@ import com.base.util.StringHelper;
 @RequestMapping("/user")
 public class UserWebController extends BaseController {
 
+	final String UI_URL = "manager/User";
+
 	@Resource
 	private BUserService bUservice;
 
@@ -36,14 +38,33 @@ public class UserWebController extends BaseController {
 
 	@RequestMapping(value = "/addUserUI", method = RequestMethod.GET)
 	public ModelAndView addUserUI() {
-		return new ModelAndView("register");
+		return new ModelAndView(UI_URL + "/edit");
+	}
+	
+	
+	@RequestMapping(value = "/editUserUI", method = RequestMethod.GET)
+	public ModelAndView editUserUI(Integer id) {
+		ModelAndView mv = new ModelAndView(UI_URL + "/edit");
+		try {
+			User user = bUservice.queryByPK(new User(), TABLENAME, id);
+			mv.addObject("user", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
 	}
 
 	@RequestMapping(value = "/userListUI", method = RequestMethod.GET)
 	public ModelAndView userListUI() {
-		return new ModelAndView("userlist");
+		return new ModelAndView(UI_URL + "/index");
 	}
 
+	/**
+	 * 登录
+	 * @param loginName
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson login(String loginName, String password) {
@@ -64,6 +85,8 @@ public class UserWebController extends BaseController {
 							|| !user.getPassword().equals(password)) {
 						isSuccess = false;
 						message = "用户名密码错误";
+					} else {
+						getSession().setAttribute("user", user);
 					}
 				}
 			}

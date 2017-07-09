@@ -28,28 +28,10 @@
 			targetProject="C:\study\GIT\study\appservice\src\main\java" type="XMLMAPPER" />
 		
 		<!-- 不生成Example相关的代码 -->
-		<table tableName="address" domainObjectName="Address"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false" />
-		<table tableName="evaluate" domainObjectName="Evaluate"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false" />
-		<table tableName="menu" domainObjectName="Menu"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false" />
-		<table tableName="order" domainObjectName="Order"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false" />
-		<table tableName="rolemenu" domainObjectName="Rolemenu"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false" />
 		<table tableName="shop" domainObjectName="Shop"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableUpdateByExample="false" enableSelectByExample="false" />
-		<table tableName="user" domainObjectName="User"
-			enableCountByExample="false" enableDeleteByExample="false"
-			enableUpdateByExample="false" enableSelectByExample="false" />
-		<table tableName="role" domainObjectName="Role"
+		<table tableName="shoptype" domainObjectName="ShopType"
 			enableCountByExample="false" enableDeleteByExample="false"
 			enableUpdateByExample="false" enableSelectByExample="false" />
 			

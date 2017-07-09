@@ -10,7 +10,7 @@ import java.util.List;
  * @param <T>
  */
 public class Page<T> implements java.io.Serializable{
-  public static final int DEFAULT_PAGE_SIZE = 5;
+  public static final int DEFAULT_PAGE_SIZE = 10;
 
   protected int pageNo = 1; // 当前页, 默认为第1页
   protected int pageSize = DEFAULT_PAGE_SIZE; // 每页记录数

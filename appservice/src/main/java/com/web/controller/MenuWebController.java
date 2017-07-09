@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.app.model.AjaxJson;
 import com.base.model.Menu;
 import com.base.model.Page;
-import com.base.model.Role;
 import com.base.service.BMenuService;
 import com.base.util.BeanHelper;
 import com.base.util.StringHelper;

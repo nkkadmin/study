@@ -21,7 +21,7 @@
     </bean>
     
     <!-- 配置数据源 -->
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
     	<property name="driverClassName">
     		<value>${jdbc_driverClassName}</value>
     	</property>
@@ -29,6 +29,21 @@
     		<value>${jdbc_url}</value>
     	</property>
     	<property name="username">
+    		<value>${jdbc_username}</value>
+    	</property>
+    	<property name="password">
+    		<value>${jdbc_password}</value>
+    	</property>
+    </bean> -->
+    <!-- CP30 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    	<property name="driverClass">
+    		<value>${jdbc_driverClassName}</value>
+    	</property>
+    	<property name="jdbcUrl">
+    		<value>${jdbc_url}</value>
+    	</property>
+    	<property name="user">
     		<value>${jdbc_username}</value>
     	</property>
     	<property name="password">
