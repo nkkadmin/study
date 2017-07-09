@@ -9,6 +9,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
+	
+	/**
+	 * 登录UI
+	 * @return
+	 */
+	@RequestMapping(value = "/loginUI", method = RequestMethod.GET)
+	public ModelAndView loginUI() {
+		return new ModelAndView("manager/login");
+	}
 
 	/**
 	 * 
