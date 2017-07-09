@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.commons.constant.MessageConstant;
 import com.base.controller.BaseController;
 import com.base.model.Page;
 import com.base.model.Shop;
@@ -90,7 +91,7 @@ public class ShopWebController extends BaseController {
 	@ResponseBody
 	public AjaxJson updateByPK(Shop shop) {
 		boolean isSuccess = true;
-		String message = "修改成功";
+		String message = MessageConstant.UPDATE_SUCCESS;
 		try {
 			if (shop.getId() == null) {
 				isSuccess = false;
@@ -99,7 +100,7 @@ public class ShopWebController extends BaseController {
 				Map<String, Object> map = BeanHelper.objectToMap(shop);
 				if (bShopService.updateByPK(map, TABLENAME) != 1) {
 					isSuccess = false;
-					message = "修改失败";
+					message = MessageConstant.UPDATE_FALIL;
 				}
 			}
 			return responseInfo(message, isSuccess);
