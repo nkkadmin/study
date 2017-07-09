@@ -33,7 +33,7 @@ public class UserWebController extends BaseController {
 
 	@RequestMapping(value = "/loginUI", method = RequestMethod.GET)
 	public ModelAndView loginUI() {
-		return new ModelAndView("login");
+		return new ModelAndView("manager/login");
 	}
 
 	@RequestMapping(value = "/addUserUI", method = RequestMethod.GET)

@@ -4,11 +4,11 @@
    
    
    <select id="queryByPK" resultType="java.util.Map">
-   	  select * from ${paramMap.tableName} where id = #{paramMap.id,jdbcType=DECIMAL} and statu = '1'
+   	  select * from ${paramMap.tableName} where id = #{paramMap.id,jdbcType=DECIMAL} and statu = '1' 
    </select>
    
    <select id="queryForListAll" resultType="java.util.Map">
-   	 select * FROM ${paramMap.tableName} where statu = '1'
+   	 select * FROM ${paramMap.tableName} where statu = '1' order by id desc
    </select>
    
    <select id="deleteDataByPK">
