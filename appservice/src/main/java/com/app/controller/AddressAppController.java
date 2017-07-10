@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.model.AjaxJson;
+import com.base.commons.constant.MessageConstant;
 import com.base.controller.BaseController;
 import com.base.model.Address;
 import com.base.service.BAddressService;
@@ -49,7 +50,7 @@ public class AddressAppController extends BaseController {
 	public AjaxJson addAddress(Address address) {
 		if (address == null || address.getUid() == null
 				|| address.getAddress() == null) {
-			return responseInfo("存在为空的数据，请认真填写后提交！", false);
+			return responseInfo(MessageConstant.INPUT_HAS_NULL, false);
 		}
 		Map<String, Object> map = BeanHelper.objectToMap(address);
 		address.setStatu("1");
@@ -58,12 +59,12 @@ public class AddressAppController extends BaseController {
 		try {
 			num = addressService.insertData(map, TABLENAME);
 			if (num == 1) {
-				return responseInfo("地址添加成功", true, null, null);
+				return responseInfo(MessageConstant.ADD_SUCCESS, true, null, null);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return responseInfo("地址添加失败", false, null, null);
+		return responseInfo(MessageConstant.ADD_FALIL, false, null, null);
 
 	}
 }

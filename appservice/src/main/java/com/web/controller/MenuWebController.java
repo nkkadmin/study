@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.commons.constant.MessageConstant;
 import com.base.model.Menu;
 import com.base.model.Page;
 import com.base.service.BMenuService;
@@ -67,7 +68,7 @@ public class MenuWebController {
 	public AjaxJson addMenu(Menu menu) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
-		String message = "添加成功!";
+		String message = MessageConstant.ADD_SUCCESS;
 		try {
 			if (StringHelper.isEmpty(menu.getName()) || StringHelper.isEmpty(menu.getUrl())) {
 				isSuccess = false;
@@ -82,7 +83,7 @@ public class MenuWebController {
 					Map<String, Object> map = BeanHelper.objectToMap(menu);
 					if (bMenuService.insertData(map, TABLENAME) != 1) {
 						isSuccess = false;
-						message = "添加失败!";
+						message = MessageConstant.ADD_FALIL;
 					}
 				}
 			}

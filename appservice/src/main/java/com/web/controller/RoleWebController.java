@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.commons.constant.MessageConstant;
 import com.base.model.Page;
 import com.base.model.Role;
 import com.base.service.BRoleService;
@@ -80,7 +81,7 @@ public class RoleWebController {
 	public AjaxJson addUser(Role role) {
 		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
-		String message = "添加成功!";
+		String message = MessageConstant.ADD_SUCCESS;
 		try {
 			if (StringHelper.isEmpty(role.getName())) {
 				isSuccess = false;
@@ -96,7 +97,7 @@ public class RoleWebController {
 					Map<String, Object> map = BeanHelper.objectToMap(role);
 					if (bRoleService.insertData(map, TABLENAME) != 1) {
 						isSuccess = false;
-						message = "添加失败!";
+						message = MessageConstant.ADD_FALIL;
 					}
 				}
 			}

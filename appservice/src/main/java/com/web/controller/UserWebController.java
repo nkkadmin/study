@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
+import com.base.commons.constant.MessageConstant;
 import com.base.controller.BaseController;
 import com.base.model.Page;
 import com.base.model.User;
@@ -107,7 +108,7 @@ public class UserWebController extends BaseController {
 	@ResponseBody
 	public AjaxJson addUser(User user, String confirmPassword) {
 		boolean isSuccess = true;
-		String message = "注册成功!";
+		String message = MessageConstant.ADD_SUCCESS;
 		try {
 			if (StringHelper.isEmpty(user.getLoginname())
 					|| StringHelper.isEmpty(user.getPassword())
@@ -116,7 +117,7 @@ public class UserWebController extends BaseController {
 					|| user.getAge() == null
 					|| StringHelper.isEmpty(confirmPassword)) {
 				isSuccess = false;
-				message = "存在为空的数据，请确认后提交!";
+				message = MessageConstant.INPUT_HAS_NULL;
 			} else if (!user.getPassword().equals(confirmPassword)
 					|| confirmPassword == null || confirmPassword.equals("")) {
 				isSuccess = false;
@@ -133,7 +134,7 @@ public class UserWebController extends BaseController {
 					Map<String, Object> map = BeanHelper.objectToMap(user);
 					if (bUservice.insertData(map, TABLENAME) != 1) {
 						isSuccess = false;
-						message = "添加失败!";
+						message = MessageConstant.ADD_FALIL;
 					}
 				}
 			}
