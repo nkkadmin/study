@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +32,7 @@ public class UserWebController extends BaseController {
 
 	private static final String TABLENAME = "user";
 
-	@RequestMapping(value = "/loginUI", method = RequestMethod.GET)
-	public ModelAndView loginUI() {
-		return new ModelAndView("manager/login");
-	}
+	
 
 	@RequestMapping(value = "/addUserUI", method = RequestMethod.GET)
 	public ModelAndView addUserUI() {
@@ -67,7 +65,7 @@ public class UserWebController extends BaseController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson login(String loginName, String password) {
+	public AjaxJson login(String loginName, String password,HttpServletRequest request) {
 		boolean isSuccess = true;
 		String message = "登录成功";
 		try {
@@ -86,7 +84,7 @@ public class UserWebController extends BaseController {
 						isSuccess = false;
 						message = "用户名密码错误";
 					} else {
-						getSession().setAttribute("user", user);
+						request.getSession().setAttribute("userInfo", user);
 					}
 				}
 			}
