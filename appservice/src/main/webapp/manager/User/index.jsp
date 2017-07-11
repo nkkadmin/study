@@ -43,7 +43,8 @@ body {
 		&nbsp;&nbsp;
 		<button type="button" class="btn btn-success" id="addnew">新增用户</button>
 	</form>
-	<table class="table table-bordered table-hover definewidth m10" id="evaluationList" data-pagination="true" data-query-params-type="" data-side-pagination="server"
+	<table class="table table-bordered table-hover definewidth m10" id="evaluationList" 
+		data-pagination="true" data-query-params-type="" data-side-pagination="server"
 		data-page-list="[All]" data-url="${ctx}/user/userList.do" data-query-params="searchParams"
 		data-response-handler="responseHandler">
 		<thead>
@@ -85,12 +86,9 @@ body {
 	function responseHandler(res) {
 		$.each(res.rows,function(i, row) {
 			row.rowOption="";
-
-			var para = JSON.stringify(row);
 			//审核状态为1，则有申请初评   																												
-			row.rowOption="<a href='##' style='margin-right:10px;'>查看</a>";
 			row.rowOption+="<a href=\"${ctx}/user/editUserUI?id="+row.id+"\" style='margin-right:10px;'>修改</a>";
-			row.rowOption+="<a  style='margin-right:10px;'>刪除</a>";
+			row.rowOption+="<a style='margin-right:10px;' href='##' onclick='del(1)'>刪除</a>";
 		});
 
 		return res;

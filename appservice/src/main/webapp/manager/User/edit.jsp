@@ -106,6 +106,21 @@ function register() {
 		}
 	})
 }
+function edit(){
+	$.ajax({
+		url: '${basepath}/user/updateUserByUserId.do',
+		type: 'post',
+		data: $("form").serialize(),
+		dataType: 'json',
+		success: function(data){
+			console.log(data);
+			$("#tips").text(data.message);
+		},
+		error: function(data){
+			console.log("error");
+		}
+	})
+}
     
 $.ajax({
 	url: '${basepath}/role/queryRoleList.do',
@@ -126,20 +141,6 @@ $.ajax({
 	}
 })
 
-function edit(){
-	$.ajax({
-		url: '${basepath}/user/updateUserByUserId.do',
-		type: 'post',
-		data: $(".definewidth").serialize(),
-		dataType: 'json',
-		success: function(data){
-			console.log(data);
-			$("#tips").text(data.message);
-		},
-		error: function(data){
-			console.log("error");
-		}
-	})
-}
+
 </script>
 </html>
