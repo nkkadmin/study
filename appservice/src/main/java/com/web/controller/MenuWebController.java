@@ -31,22 +31,24 @@ public class MenuWebController {
 
 	@Resource
 	private BMenuService bMenuService;
+	
+	final String UI_URL = "manager/Menu";
 
 	private static final String TABLENAME = "menu";
 
 	@RequestMapping(value = "/menuUI", method = RequestMethod.GET)
 	public ModelAndView menuUI() {
-		return new ModelAndView("menu/menulist");
+		return new ModelAndView(UI_URL+"/list");
 	}
 
 	@RequestMapping(value = "/addMenuUI", method = RequestMethod.GET)
 	public ModelAndView addUserUI() {
-		return new ModelAndView("menu/menuedit");
+		return new ModelAndView(UI_URL+"/edit");
 	}
 
 	@RequestMapping(value = "/editMenuUI", method = RequestMethod.GET)
 	public ModelAndView editMenuUI(Integer id) {
-		ModelAndView view =  new ModelAndView("menu/menuedit");
+		ModelAndView view =  new ModelAndView(UI_URL+"/edit");
 		Menu menu = new Menu();
 		try {
 			menu = bMenuService.queryByPK(menu, TABLENAME, id);
