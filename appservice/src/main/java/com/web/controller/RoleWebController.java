@@ -66,7 +66,7 @@ public class RoleWebController {
 	 */
 	@RequestMapping(value = "/roleListUI", method = RequestMethod.GET)
 	public ModelAndView userListUI() {
-		return new ModelAndView("role/rolelist");
+		return new ModelAndView("role/list");
 	}
 
 

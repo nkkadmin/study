@@ -8,13 +8,14 @@
 <%--  <link rel="stylesheet" type="text/css" href="${ctx}/manager/Css/bootstrap.css" />
  --%><link rel="stylesheet" type="text/css" href="${ctx}/js/bootstrap/bootstrap-table/bootstrap-table.min.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/manager/Css/bootstrap-responsive.css" />
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  
 <link rel="stylesheet" type="text/css" href="${ctx}/manager/Css/style.css" />
 <script type="text/javascript" src="${ctx}/js/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="${ctx}/manager/Js/bootstrap.js"></script>
 <script type="text/javascript" src="${ctx}/manager/Js/ckform.js"></script>
 <script src='${ctx}/js/bootstrap/bootstrap-table/bootstrap-table.min.js' type='text/javascript'></script>
 <script type="text/javascript" src="${ctx}/manager/Js/common.js"></script>
-	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  
+
 
 
 <style type="text/css">
@@ -88,7 +89,7 @@ body {
 			row.rowOption="";
 			//审核状态为1，则有申请初评   																												
 			row.rowOption+="<a href=\"${ctx}/user/editUserUI?id="+row.id+"\" style='margin-right:10px;'>修改</a>";
-			row.rowOption+="<a style='margin-right:10px;' href='##' onclick='del(1)'>刪除</a>";
+			row.rowOption+="<a style='margin-right:10px;' href='##' onclick='del("+ row.id +")'>刪除</a>";
 		});
 
 		return res;
@@ -97,11 +98,22 @@ body {
 	function del(id) {
 
 		if (confirm("确定要删除吗？")) {
-
-			var url = "index.html";
-
-			window.location.href = url;
-
+			
+			$.ajax({
+				url: '${ctx}/user/deleteUserByUserId',
+				type: 'get',
+				data: {'userId':id},
+				dataType: 'json',
+				success: function(data){
+					console.log(data);
+					
+					$("#evaluationList").bootstrapTable('refresh',{url:'${ctx}/user/userList'});
+				},
+				error: function(data){
+					console.log("error");
+				}
+			})
+			
 		}
 
 	}

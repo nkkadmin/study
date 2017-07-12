@@ -84,6 +84,7 @@
     </table>
 </form>
 </body>
+<script src="${ctx}/manager/Js/global.js"></script>
 <script>
 $(function () {       
 $('#backid').click(function(){
@@ -91,7 +92,10 @@ $('#backid').click(function(){
  });
 });
 function register() {
-	console.log($("form").serialize());
+	
+	showForm('${ctx}/user/addUser.do');
+	
+	/*console.log($("form").serialize());
 	$.ajax({
 		url : '${ctx}/user/addUser.do', //接口地址
 		type : 'post', //调用方法
@@ -104,10 +108,12 @@ function register() {
 		error : function(data) {
 			console.log("error");
 		}
-	})
+	})*/
 }
 function edit(){
-	$.ajax({
+	showForm('${basepath}/user/updateUserByUserId.do');
+	
+	/*$.ajax({
 		url: '${basepath}/user/updateUserByUserId.do',
 		type: 'post',
 		data: $("form").serialize(),
@@ -119,7 +125,7 @@ function edit(){
 		error: function(data){
 			console.log("error");
 		}
-	})
+	})*/
 }
     
 $.ajax({
