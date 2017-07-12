@@ -55,7 +55,7 @@
 					}, {
 						id : '3',
 						text : '角色管理',
-						href : '${ctx}/role/queryRoleListUI'
+						href : '${ctx}/role/listUI'
 					}, {
 						id : '6',
 						text : '菜单管理',

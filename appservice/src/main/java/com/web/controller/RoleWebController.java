@@ -31,6 +31,8 @@ public class RoleWebController {
 
 	@Resource
 	private BRoleService bRoleService;
+	
+	final String UI_URL = "manager/Role";
 
 	private static final String TABLENAME = "role";
 
@@ -40,7 +42,7 @@ public class RoleWebController {
 	 */
 	@RequestMapping(value = "/addRoleUI", method = RequestMethod.GET)
 	public ModelAndView addRoleUI() {
-		return new ModelAndView("role/roleedit");
+		return new ModelAndView(UI_URL+"/edit");
 	}
 	
 	/**
@@ -49,7 +51,7 @@ public class RoleWebController {
 	 */
 	@RequestMapping(value = "/editRoleUI", method = RequestMethod.GET)
 	public ModelAndView editRoleUI(Integer id) {
-		ModelAndView view =  new ModelAndView("role/roleedit");
+		ModelAndView view =  new ModelAndView(UI_URL+"/edit");
 		Role role = new Role();
 		try {
 			role = bRoleService.queryByPK(role, TABLENAME, id);
@@ -64,9 +66,9 @@ public class RoleWebController {
 	 * 跳转到列表页面
 	 * @return
 	 */
-	@RequestMapping(value = "/roleListUI", method = RequestMethod.GET)
-	public ModelAndView userListUI() {
-		return new ModelAndView("role/list");
+	@RequestMapping(value = "/listUI", method = RequestMethod.GET)
+	public ModelAndView listUI() {
+		return new ModelAndView(UI_URL+"/index");
 	}
 
 
