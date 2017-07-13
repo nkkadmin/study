@@ -1,0 +1,12 @@
+.mui-search .mui-placeholder{
+	line-height: 46;
+	color: white;
+}
+
+.mui-search .mui-active:before{
+	height: 30px;
+	margin-top: -22px;
+}
+.mui-bar .mui-input-row .mui-input-clear~ .mui-icon-clear{
+	top: 12px;
+}

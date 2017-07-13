@@ -28,6 +28,7 @@ public class OrderAppController {
 	@RequestMapping(value = "/getOrderByUserId")
 	public Page<OrderCustom> getOrderByUserId(Integer userId,
 			Page<OrderCustom> page) {
+		System.out.println(userId);
 		page.setPageNo(page.getPageNo() == 0 ? 1 : page.getPageNo());
 		bOrderService.getShopByUserId(userId, page);
 		return page;

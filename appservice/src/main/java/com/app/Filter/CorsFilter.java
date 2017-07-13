@@ -39,14 +39,14 @@ public class CorsFilter implements Filter {
 		*/
 		
 		
-		/* response.setHeader("Pragma", "no-cache");
+		 response.setHeader("Pragma", "no-cache");
          response.setHeader("Cache-Control", "no-cache");
          response.setDateHeader("Expires", 0L);
          response.addHeader("access-control-allow-headers", "Origin, X-Requested-With, Content-Type, Accept");
          response.addHeader("Access-Control-Allow-Origin", "*");
 		if("OPTIONS".equals(request.getMethod())){
 			response.setStatus(204);
-		}*/
+		}
 		arg2.doFilter(arg0, arg1);
 	}
 

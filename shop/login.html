@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group" style="margin-top: 20px;" method="post">
+				<div class="mui-input-row">
+					<label>用户名</label>
+					<input type="text" name="username" id="username" class="mui-input-clear" placeholder="请输入用户名">
+				</div>
+				<div class="mui-input-row">
+					<label>密码</label>
+					<input type="password" id="password" name="password" class="mui-input-clear" placeholder="请输入密码">
+				</div>
+				<button id="login" class="mui-btn" style="height: 40px;width: 100%;background-color: #64c987;font-size: 14px;margin-top: 20px;">登录</button>
+				<p style="text-align: center;margin-top: 5px;padding-bottom: 5px;font-family: '微软雅黑';font-weight: bold;color: #000000;">
+					<span id="newuser" style="color: #007AFF;cursor: pointer;">注册账号</span> |
+					<span id="forgerPass" style="color: #007AFF;cursor: pointer;">忘记密码</span>
+				</p>
+			</form>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script>
+			$(function() {
+				$("#newuser").bind("tap", function(e) {
+					e.preventDefault();
+					mui.openWindow({
+						url: 'addUser.html',
+						id: 'newuser',
+						show: {
+							duration: 300
+						}
+					});
+				});
+
+				$("#login").click(function() {
+					var username = $("#username").val();
+					var password = $("#password").val();
+					if(username == '' || password == '') {
+						mui.toast("用户名或者密码不能为空", {
+							duration: 'long',
+							type: 'div'
+						});
+						return;
+					}
+					mui.ajax('http://localhost:8082/appservice/userHttp/login', {
+						data: {
+							username: username,
+							password: password
+						},
+						dataType: 'json', //服务器返回json格式数据
+						type: 'post', //HTTP请求类型
+						timeout: 10000, //超时时间设置为10秒；
+						/*headers: {
+							'Content-Type': 'application/json'
+						},*/
+						success: function(data) {
+							mui.openWindow({
+								url: 'addUser.html',
+								id: 'newuser',
+								show: {
+									duration: 300
+								}
+							});
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							mui.alert(type);
+						}
+					});
+					/*mui.post("http://localhost:8082/appservice/userHttp/login", {
+						username: username,
+						password: password
+					}, function(data) {
+						mui.alert(data.success);
+						if(data.success) {
+							mui.openWindow({
+								url: 'addUser.html',
+								id: 'newuser',
+								show: {
+									duration: 300
+								}
+							});
+						} else {
+							mui.alert(data.message);
+							return;
+						}
+					}, 'json');*/
+				});
+			});
+		</script>
+	</body>
+
+</html>
