@@ -11,25 +11,32 @@
 		<result column="statu" property="statu" jdbcType="VARCHAR" />
 	</resultMap>
 
-	<select id="getOrderByBusId" resultType="com.base.model.Order">
-		select s.id as
-		shopId,s.name as shopname,s.price as price,s.discountprice as
-		discountPirce,s.typeid as typeId,
-		s.img as shopImg,o.* FROM
-		xsxteam.shop s right join xsxteam.order o on
-		o.sid=s.id where
-		s.userid=#{busId,jdbcType=INTEGER} order by o.createtime desc
+	<select id="getOrderByBusId" resultType="com.base.model.OrderCustom">
+		SELECT  o.id,o.createtime,o.statu,u.username AS buyer,su.username AS seller,
+		s.name AS shopName,s.price,s.discountprice,s.img AS shipImg,s.id AS shipId,
+		a.address
+		FROM xsxteam.order o LEFT JOIN xsxteam.`user` u ON o.uid = u.id
+		LEFT JOIN xsxteam.`shop` s ON o.sid = s.id
+		LEFT JOIN xsxteam.`user` su ON s.userid = su.id
+		LEFT JOIN xsxteam.`address` a ON a.id = o.deliveryaddressid
+		<where>
+			 u.roleid=(SELECT r.id FROM xsxteam.`role` r WHERE r.name='普通用户') 
+			 AND u.userid=#{busId,jdbcType=INTEGER} order by o.createtime desc
+		</where>
 	</select>
 
 	<select id="getShopByUserId" resultType="com.base.model.OrderCustom">
-		select s.id as
-		shopId,s.name as shopname,s.price as price,
-		s.discountprice as
-		discountPirce,s.typeid as typeId,
-		s.img as shopImg,o.* FROM
-		xsxteam.order o left join xsxteam.shop s on o.sid=s.id
-		where
-		o.uid=#{userId,jdbcType=INTEGER} order by o.createtime desc
+		SELECT  o.id,o.createtime,o.statu,u.username AS buyer,su.username AS seller,
+		s.name AS shopName,s.price,s.discountprice,s.img AS shipImg,s.id AS shipId,
+		a.address
+		FROM xsxteam.order o LEFT JOIN xsxteam.`user` u ON o.uid = u.id
+		LEFT JOIN xsxteam.`shop` s ON o.sid = s.id
+		LEFT JOIN xsxteam.`user` su ON s.userid = su.id
+		LEFT JOIN xsxteam.`address` a ON a.id = o.deliveryaddressid
+		<where>
+			 u.roleid=(SELECT r.id FROM xsxteam.`role` r WHERE r.name='普通用户') 
+			 AND u.id=#{userId,jdbcType=INTEGER} order by o.createtime desc
+		</where>
 	</select>
 
 </mapper>

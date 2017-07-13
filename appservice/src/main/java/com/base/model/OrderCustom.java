@@ -20,6 +20,11 @@ public class OrderCustom extends Order {
 	private double discountPrice;
 	// 商品分类
 	private Integer typeId;
+	
+	private String address; //配送地址
+	private String buyer; //买家
+	private String seller; //卖家
+	
 	public Integer getShipId() {
 		return shipId;
 	}
@@ -55,6 +60,24 @@ public class OrderCustom extends Order {
 	}
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getBuyer() {
+		return buyer;
+	}
+	public void setBuyer(String buyer) {
+		this.buyer = buyer;
+	}
+	public String getSeller() {
+		return seller;
+	}
+	public void setSeller(String seller) {
+		this.seller = seller;
 	}
 
 }

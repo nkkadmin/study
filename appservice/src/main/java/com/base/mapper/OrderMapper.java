@@ -16,7 +16,7 @@ public interface OrderMapper {
 	 *            商家id
 	 * @return
 	 */
-	public List<OrderCustom> getOrderByBusId(@Param("busId") Integer userId,Page<OrderCustom> page);
+	public List<OrderCustom> getOrderByBusId(@Param("busId") Integer busId,Page<OrderCustom> page);
 
 	/**
 	 * 用户获取订单
