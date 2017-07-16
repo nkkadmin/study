@@ -8,7 +8,13 @@
    </select>
    
    <select id="queryForListAll" resultType="java.util.Map">
-   	 select * FROM ${paramMap.tableName} where statu = '1' order by id desc
+   	 select * FROM ${paramMap.tableName} where statu = '1'
+   	 <foreach collection="paramMap" index="key" item="value" separator=" and ">
+   	 	<if test="key != 'tableName'">
+   	 		and ${key} like '%${value}%'
+   	 	</if>
+   	 </foreach>
+   	  order by id desc
    </select>
    
    <select id="deleteDataByPK">

@@ -18,6 +18,7 @@ import com.base.model.Page;
 import com.base.model.Shop;
 import com.base.service.BShopService;
 import com.base.util.BeanHelper;
+import com.base.util.StringHelper;
 
 /**
  * 商品管理
@@ -66,15 +67,20 @@ public class ShopWebController extends BaseController {
 	
 	/**
 	 * 获取商品列表
-	 * 
+	 * @param page
+	 * @param name
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<Shop> list(Page<Shop> page) {
-		page.setPageNo(page.getPageNo() == 0 ? 1 : page.getPageNo());
+	public Page<Shop> list(Page<Shop> page,String name) {
 		try {
-			page = bShopService.queryForListAllPage(new Shop(), TABLENAME, page);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", TABLENAME);
+			if(!StringHelper.isEmpty(name)){
+				map.put("name", name);
+			}
+			page = bShopService.queryForListAllPage(new Shop(), map, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

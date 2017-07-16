@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import com.base.model.Page;
 import com.base.model.ShopType;
 import com.base.service.BShopTypeService;
 import com.base.util.BeanHelper;
+import com.base.util.StringHelper;
 
 /**
  * 商品类型Controller
@@ -76,15 +78,20 @@ public class ShopTypeController extends BaseController {
 
 	/**
 	 * 获取全部商品类型
-	 * 
+	 * @param page
+	 * @param name
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/queryAllShopType", method = RequestMethod.POST)
-	public Page<ShopType> queryAllShopType(Page<ShopType> page) {
+	public Page<ShopType> queryAllShopType(Page<ShopType> page,String name) {
 		try {
-			return bShopTypeService.queryForListAllPage(new ShopType(),
-					TABLENAME, page);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", TABLENAME);
+			if(!StringHelper.isEmpty(name)){
+				map.put("name", name);
+			}
+			return bShopTypeService.queryForListAllPage(new ShopType(), map, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -51,14 +51,12 @@ public class BBaseServiceImpl<T> implements BBaseService<T> {
 		return list;
 	}
 
-	public Page<T> queryForListAllPage(T t, String tableName,Page<T> page) throws Exception {
-		if (t == null || tableName == null) {
-			throw new CustomException("存在为空的参数：【t】：" + t + ",【tableName】：" + tableName);
+	public Page<T> queryForListAllPage(T t, Map<String, Object> paramMap,Page<T> page) throws Exception {
+		if (t == null || paramMap.get("tableName") == null) {
+			throw new CustomException("存在为空的参数：【t】：" + t + ",【tableName】：" + paramMap.get("tableName"));
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("tableName", tableName);
 		List<T> list = new ArrayList<>();
-		List<Map<String, Object>> searchMap = baseMappper.queryForListAll(map,page);
+		List<Map<String, Object>> searchMap = baseMappper.queryForListAll(paramMap,page);
 		for (Map<String, Object> objMap : searchMap) {
 			list.add((T) BeanHelper.mapToObjectReflect(objMap, t.getClass()));
 		}

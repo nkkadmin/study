@@ -116,14 +116,20 @@ public class RoleWebController {
 
 	/**
 	 * 获取角色列表
-	 * 
+	 * @param page
+	 * @param name
 	 * @return
 	 */
 	@RequestMapping(value = "/queryRoleList", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<Role> queryRoleList(Page<Role> page) {
+	public Page<Role> queryRoleList(Page<Role> page,String name) {
 		try {
-			page = bRoleService.queryForListAllPage(new Role(), TABLENAME, page);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", TABLENAME);
+			if(!StringHelper.isEmpty(name)){
+				map.put("name", name);
+			}
+			page = bRoleService.queryForListAllPage(new Role(), map, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

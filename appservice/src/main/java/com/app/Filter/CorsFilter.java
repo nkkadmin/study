@@ -27,18 +27,10 @@ public class CorsFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1,
 			FilterChain arg2) throws IOException, ServletException {
-		System.out.println("==============filter=========");
+		System.out.println(">>>>>filter<<<<<<");
 		HttpServletRequest request = (HttpServletRequest)arg0;
 		HttpServletResponse response = (HttpServletResponse)arg1;
-	/*	//指定允许其他访问的域
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		//指定响应类型
-		response.setHeader("Access-Control-Allow-Origin", "POST, GET, DELETE, OPTIONS, DELETE");
-		// 响应头设置
-		response.setHeader("Access-Control-Allow-Headers", "Content-Type, x-requested-with, X-Custom-Header, HaiYi-Access-Token");
-		*/
-		
-		
+		//跨域
 		 response.setHeader("Pragma", "no-cache");
          response.setHeader("Cache-Control", "no-cache");
          response.setDateHeader("Expires", 0L);

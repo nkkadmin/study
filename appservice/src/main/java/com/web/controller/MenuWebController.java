@@ -101,15 +101,21 @@ public class MenuWebController {
 	}
 
 	/**
-	 * 获取角色列表
-	 * 
+	 * 获取菜单列表
+	 * @param page
+	 * @param 菜单名称
 	 * @return
 	 */
 	@RequestMapping(value = "/queryMenuList", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<Menu> queryMenuList(Page<Menu> page) {
+	public Page<Menu> queryMenuList(Page<Menu> page,String name) {
 		try {
-			page = bMenuService.queryForListAllPage(new Menu(), TABLENAME, page);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", TABLENAME);
+			if(!StringHelper.isEmpty(name)){
+				map.put("name", name);
+			}
+			page = bMenuService.queryForListAllPage(new Menu(), map, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
