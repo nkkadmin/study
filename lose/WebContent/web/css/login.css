@@ -1,0 +1,133 @@
+#login {
+	width:355px;
+	float:right;
+	outline:none;
+}
+
+.signin {
+	font-family:"ºÚÌå";
+	font-size:14px;
+	font-weight:bold;
+	color:#256483;
+	text-decoration:none;
+	-webkit-border-radius: .3em;
+	-moz-border-radius: .3em;
+	border-radius: .3em;
+	float:right;
+	margin:10px 30px 0px 0px;
+}
+.signin:hover {
+	color:#fff;
+	text-decoration:none;
+}
+.drop {
+	display:none;
+	position: absolute;
+	z-index:1000;
+	top:80px;
+	-webkit-box-shadow: 0 2px 4px 0 rgba(0,0,0,.4);
+	-moz-box-shadow:  0 2px 4px 0 rgba(0,0,0,.4);
+	box-shadow:  0 2px 4px 0 rgba(0,0,0,.4);
+	border:solid 4px #0b3545;
+	width:327px;
+	padding:10px;
+	border-radius: .3em 0 .3em .3em;
+	background: #f3f8fc;
+	clear:both;
+	margin-top:6px;
+}
+
+.submit {
+	display:block;
+	width:auto;
+	float:right;
+	margin-top:10px;
+	border:solid 1px #042836;
+	padding:10px;
+	background:#ffc800;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#fff;
+	text-decoration:none;
+	background-color:#0b6487;
+	border-radius: .3em;
+}
+.submit:hover {
+	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+	background-color:#0b3545;
+	color:#999;
+}
+.required,.required1 {
+	border:solid 1px #ccc;
+	padding:15px;
+	background:#fff;
+	width:295px;
+	-webkit-border-radius: .3em;
+	-moz-border-radius: .3em;
+	border-radius: .3em;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:18px;
+	font-weight:bold;
+	color:#666;
+}
+.required,.required1 input:focus {
+	border:solid 1px #0b6487;
+	padding:15px;
+	background: #c1e2f1;
+	
+	   -webkit-transition:background .2s ease-in;
+   -moz-transition:background .2s ease-in;
+   -o-transition:background .2s ease-in;
+   transition:background .2s ease-in;
+}
+label {
+	display:block;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#666;
+	margin:10px 0 3px 0;
+}
+.remember {
+	float:left;
+	margin-top:20px;
+}
+.checkbox {
+	margin:0 5px 0 0;
+	padding:0;
+	width:auto;
+	background:none;
+	border:none;
+}
+#login p {
+	font-family: Helvetica, Arial, sans-serif;
+	font-size:12px;
+	color:#666;
+	clear:both;
+}
+#login p a {
+	color:#0784b3;
+	font-weight:bold;
+	text-decoration:none;
+}
+#login p a:hover {
+	color:#127296;
+}
+
+.tooltip span {
+	display:none;
+	margin-left:8px;
+}
+.tooltip:hover span {
+	display:inline;
+	position:absolute;
+	background: url(../images/tip.gif) no-repeat left #333;
+	color:#fff;
+	padding:6px 8px 6px 20px;
+	font-size:12px;
+	opacity:0.8;
+	font-weight:bold;
+}

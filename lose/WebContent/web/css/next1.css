@@ -1,0 +1,142 @@
+ul{ list-style:none;}
+.note-page,#content{
+	width: 700px;
+	margin: 15px auto;
+	border: 1px solid silver;
+	padding: 20px 55px 20px 15px;
+	border-radius: 6px;
+	box-shadow: 2px 5px 10px #e1e1e1;
+}
+.avatar {
+	width: 50px;
+	height: 50px;
+	border-radius: 6px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+}
+#note-detail {
+	margin-left: 70px;
+	border-bottom: 2px dotted #CBCBCB;
+	margin-bottom: 20px;	
+}
+.note-detail-title-wrap {
+	border-bottom: 2px dotted #CBCBCB;
+	height: 33px;
+	margin-bottom: 20px;
+}
+.note-detial-goods {
+	margin-bottom: 20px;
+}
+.note-detail-title {
+	margin-top:-50px;
+	color: #333;
+	font-size: 18px;
+	line-height: 28px;
+	padding-bottom: 5px;
+	overflow: hidden;
+	font-weight: bold;
+	font-family: "Microsoft YaHei",'Tahoma','simsun','STHeiTi','sans-serif';
+}
+#note-detail-title-pre{
+	 color:#999;
+	 }
+.note-detail-author {
+	color: #666;
+	font-size:11px;
+	display: inline-block;
+	vertical-align: bottom;
+	float:right;
+	margin:-45px 0px 0px ;
+}
+.goods-detail{
+	font-size:12px;
+	}
+.goods-detail td {
+	border: 1px solid #ececec;
+	padding: 5px 0 5px 20px;
+	height:20px;
+	line-height:20px;
+}
+.goods-detail td  a,.goods-detail td  a:hover{
+	text-decoration:none;
+	color:#0b6487;
+}
+
+#box{
+	border: 1px dashed #9C9;
+	background-color: #EDF6EE;
+	padding: 10px;
+	margin-bottom: 20px;
+	font-size:12px;
+	color:#333;
+}
+.note-expired {
+	background:  url("icons.png") no-repeat 5px -18px;
+	border: 1px solid #FFF8D9;
+	padding: 5px 30px;
+	margin-left: 5px;
+}
+#snsLogin-wrap {
+	padding-left: 70px;
+	font-size:12px;
+	color:#666;
+}
+.comment-textarea {
+	display: block;
+	width: 608px;
+	height: 60px;
+	border: 1px solid #c1c1c1;
+	border-radius: 4px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16) inset;
+	overflow: auto;
+}
+.pinglun{
+	margin-left: 70px;
+	margin-top:-50px;
+	margin-bottom: 20px;	
+}
+
+.btn{
+	background-color:#92bd47;
+	border:1px solid #fff;
+	border-radius:3px;
+	color:#fff;
+	}
+
+
+/*show.html´úÂë*/
+
+#content form{
+	font-size:13px;
+	font-weight:normal;}
+.content-title h4{ font-size:16px; font-weight:bold; color:#666; height:22px; line-height:22px; text-indent:5px;}
+
+#content p{
+	text-indent:2em}
+
+	
+	
+/*find.html,,find1.html´úÂë*/	
+#fill_in{
+	margin-bottom:60px;
+	}
+#message_text { display: none; }
+.commentList-title{
+	background-color:#ececec;
+	border-radius:5px;
+	border-color:1px solid #999;
+	height:40px;
+	line-height:40px;
+	}
+.commentList-title-author{
+	font-size:13px;
+	font-weight:bold;
+	color:#025098;
+	}
+.commentList-title-time{
+	margin-left:50px;
+	}
+.commentList-reply,.commentList-title-num{
+	float:right;
+	margin-right:10px;
+	}

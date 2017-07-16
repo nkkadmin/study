@@ -1,0 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<div id="footer">
+  <div class="footer">
+	<ul id="fmenu">
+		<li><a href="#">友情链接：&nbsp;&nbsp;北方民族大学</a></li>
+		<li><a href="#">联系我们</a></li>
+	  </ul>
+	  <div id="footerlogo"></div>
+	</div>		
+</div>

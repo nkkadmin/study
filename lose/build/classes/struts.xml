@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+ 	<constant name="struts.devMode" value="true" /> 
+ 	<constant name="struts.multipart.saveDir" value="d:\"/>
+ 	
+	<package name="user" namespace="/" extends="struts-default">
+		<action name="*_*" 
+			class="com.ssh.lose.action.UserAction" method="{2}">
+			<result name="home">home/homeAction.action</result>
+		</action>
+	</package>
+	
+	<package name="home" namespace="/" extends="struts-default">
+		<action name="homeAction" 
+			class="com.ssh.lose.action.HomeAction" method="home">
+			<result name="home">../web/home.jsp</result>
+		</action>
+	</package>
+	
+	<package name="shop" namespace="/" extends="struts-default">
+		<action name="*_*" class="com.ssh.lose.action.ShopAction" method="{2}">
+			<result name="lose">/web/lose.jsp</result>
+			<result name="take">/web/take.jsp</result>
+			<result name="info">/web/info.jsp</result>
+		</action>
+		<action name="upload" class="com.ssh.lose.action.UploadAction" method="upload">
+			<result ></result>
+			<!-- 定义文件上传拦截器 -->
+             <interceptor-ref name="fileUpload">
+                 <!-- 设置文件上传大小 -->
+                 <param name="maximumSize">409600</param>
+                 <!-- 设置文件上传类型 
+                 <param name="allowedTypes">
+                     application/vnd.ms-powerpoint
+                 </param>
+                 -->
+             </interceptor-ref>
+             <!-- 自定义了拦截器后必手动定义默认的拦截器，否则默认的拦截器不会被执行 -->
+             <interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
+	 
+	</package>
+	
+</struts>
