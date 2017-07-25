@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.base.model.Page;
-import com.base.model.User;
 
 /**
  * 公共service
@@ -36,7 +35,7 @@ public interface BBaseService<T> {
 	 * 
 	 * @return
 	 */
-	public Page<T> queryForListAllPage(T t, String tableName,Page<T> page) throws Exception;
+	public Page<T> queryForListAllPage(T t, Map<String,Object> paramMap,Page<T> page) throws Exception;
 
 	/**
 	 * 根据唯一标识删除数据

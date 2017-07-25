@@ -6,7 +6,8 @@
 <title></title>
 <meta charset="UTF-8">
 <%--  <link rel="stylesheet" type="text/css" href="${ctx}/manager/Css/bootstrap.css" />
- --%><link rel="stylesheet" type="text/css" href="${ctx}/js/bootstrap/bootstrap-table/bootstrap-table.min.css" />
+ --%>
+<link rel="stylesheet" type="text/css" href="${ctx}/js/bootstrap/bootstrap-table/bootstrap-table.min.css" />
 <link rel="stylesheet" type="text/css" href="${ctx}/manager/Css/bootstrap-responsive.css" />
 <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">  
 <link rel="stylesheet" type="text/css" href="${ctx}/manager/Css/style.css" />

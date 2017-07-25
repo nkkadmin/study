@@ -59,7 +59,7 @@
 					}, {
 						id : '6',
 						text : '菜单管理',
-						href : 'Menu/index.html'
+						href : '${ctx}/menu/menuUI'
 					}, {
 						id : '12',
 						text : '机构管理',

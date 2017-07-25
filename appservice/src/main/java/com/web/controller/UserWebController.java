@@ -147,15 +147,20 @@ public class UserWebController extends BaseController {
 
 	/**
 	 * 获取用户列表
-	 * 
+	 * @param page
+	 * @param name
 	 * @return
 	 */
 	@RequestMapping(value = "/userList", method = RequestMethod.POST)
 	@ResponseBody
-	public Page<User> userList(Page<User> page) {
-		page.setPageNo(page.getPageNo() == 0 ? 1 : page.getPageNo());
+	public Page<User> userList(Page<User> page,String name) {
 		try {
-			page = bUservice.queryForListAllPage(new User(), TABLENAME, page);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", TABLENAME);
+			if(!StringHelper.isEmpty(name)){
+				map.put("name", name);
+			}
+			page = bUservice.queryForListAllPage(new User(), map, page);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

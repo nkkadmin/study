@@ -65,7 +65,7 @@ $(function () {
 	})
 	
 	$('#addnew').click(function(){
-		window.location.href="add.html";
+		window.location.href="${ctx}/role/editRoleUI";
 	});
 });
 /* 查询参数 */
@@ -75,11 +75,35 @@ function searchParams(params) {
 	return params;
 }
 
+/* 构建操作按钮 */
+ function responseHandler(res){
+	$.each(res.rows,function(i,row){
+		row.rowOption="";
+		//审核状态为1，则有申请初评
+		row.rowOption += "<a href=\"${ctx}/role/editRoleUI?id="+row.id+"\" style='margin-right:10px;'>修改</a>";
+		row.rowOption += "<a onclick='del("+row.id+")' href=\"javascript:;\">删除</a>";
+	});
+	return res;
+}
+
 function del(id){
 	if(confirm("确定要删除吗？"))
 	{
-		var url = "index.html";
-		window.location.href=url;		
+		$.ajax({
+			url: '${ctx}/role/deleteRoleByPK',
+			type: 'get',
+			data: {'id':id},
+			dataType: 'json',
+			success: function(data){
+				console.log(data);
+				if(data.success){
+					$("#roleList").bootstrapTable('refresh',{url:'${ctx}/role/listUI'});
+				}
+			},
+			error: function(data){
+				console.log("error");
+			}
+		})		
 	}
 }
 </script>
