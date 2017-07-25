@@ -1,85 +1,95 @@
 {
-	"index.html": {
-		"resources": [
-			"css/headSearch.css",
-			"js/jquery.min.js",
-			"img/main/jipai.png",
-			"img/top.png",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"img/main/coco.png",
-			"css/mui.min.css",
-			"css/style.css",
-			"img/main/huang.png",
-			"img/main/dian.png",
-			"img/main/tl.png"
-		],
-		"refer": [
-			"addUser.html",
-			"prolist.html",
-			"reg.html"
-		]
-	},
-	"addUser.html": {
-		"refer": [
-			"login.html"
-		],
-		"resources": [
-			"js/jquery.min.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/style.css"
-		]
-	},
-	"main.html": {
-		"resources": [
-			"index.html",
-			"js/jquery.min.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"my.html"
-		],
-		"refer": [
-			"cartList.html",
-			"index.html",
-			"my.html",
-			"shopList.html"
-		]
-	},
-	"test.html": {
-		"resources": [
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css"
-		]
-	},
-	"shopList.html": {
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css"
-		]
-	},
-	"reg.html": {
-		"resources": [
-			"js/app.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/style.css"
-		],
-		"refer": [
-			"login.html"
-		]
-	},
-	"login.html": {
-		"resources": [
-			"js/jquery.min.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"css/style.css",
-			"fonts/mui.ttf"
-		]
-	}
+  "index.html": {
+    "resources": [
+      "css/headSearch.css",
+      "js/jquery.min.js",
+      "img/main/jipai.png",
+      "img/top.png",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "img/main/coco.png",
+      "css/mui.min.css",
+      "css/style.css",
+      "img/main/huang.png",
+      "img/main/dian.png",
+      "img/main/tl.png"
+    ],
+    "refer": [
+      "addUser.html",
+      "prolist.html",
+      "reg.html"
+    ]
+  },
+  "addUser.html": {
+    "refer": [
+      "login.html"
+    ],
+    "resources": [
+      "js/jquery.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ]
+  },
+  "main.html": {
+    "resources": [
+      "index.html",
+      "js/jquery.min.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "my.html"
+    ],
+    "refer": [
+      "cartList.html",
+      "index.html",
+      "my.html",
+      "shopList.html"
+    ]
+  },
+  "test.html": {
+    "resources": [
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "shopList.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ],
+    "refer": []
+  },
+  "reg.html": {
+    "resources": [
+      "js/app.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/style.css"
+    ],
+    "refer": [
+      "login.html"
+    ]
+  },
+  "login.html": {
+    "resources": [
+      "js/jquery.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "css/style.css",
+      "fonts/mui.ttf"
+    ],
+    "refer": []
+  },
+  "shop.html": {
+    "resources": [
+      "js/jquery.min.js",
+      "js/mui.min.js",
+      "css/mui.min.css"
+    ]
+  }
 }

@@ -15,4 +15,10 @@ public interface AddressMapper {
 	 * @return
 	 */
 	public List<Address> getAddressByUserId(@Param("userId") Integer userId);
+	
+	/**
+	 * 获取默认地址
+	 * @return
+	 */
+	public Address getAddressByIsDefault();
 }
