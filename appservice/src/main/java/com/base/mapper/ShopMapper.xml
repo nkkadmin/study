@@ -12,9 +12,10 @@
     <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
     <result column="typeid" property="typeid" jdbcType="INTEGER" />
     <result column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, img, price, discountprice, statu, createtime, updatetime, typeid
+    id, name, img, price, discountprice, statu, createtime, updatetime, typeid,desc
   </sql>
    
    

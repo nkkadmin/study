@@ -40,7 +40,20 @@
 			</matcher>
 		</filter>
 		<filter>
+<<<<<<< HEAD
 			<id>1500986683318</id>
+=======
+			<id>1500039721103</id>
+			<name></name>
+			<type>26</type>
+			<matcher>
+				<id>org.eclipse.ui.ide.multiFilter</id>
+				<arguments>1.0-name-matches-false-false-node_modules</arguments>
+			</matcher>
+		</filter>
+		<filter>
+			<id>1500039721109</id>
+>>>>>>> 04a283619957f056cc3af3f2b7b861fc6a161611
 			<name></name>
 			<type>26</type>
 			<matcher>

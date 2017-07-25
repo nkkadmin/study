@@ -187,7 +187,7 @@ public class RoleWebController {
 				message = "参数不合法";
 			} else {
 				Map<String, Object> map = BeanHelper.objectToMap(role);
-				if (bRoleService.updateByPK(map, TABLENAME) != 1) {
+				if (bRoleService.updateByPK(map,role.getId(), TABLENAME) != 1) {
 					isSuccess = false;
 					message = "修改失败";
 				}
@@ -221,7 +221,7 @@ public class RoleWebController {
 				Map<String,Object> map = new HashMap();
 				map.put("id", id);
 				map.put("statu", "0");  //不做物理删除，做标记删除
-				bRoleService.updateByPK(map, TABLENAME);
+				bRoleService.updateByPK(map,id, TABLENAME);
 			}
 			ajax.setSuccess(isSuccess);
 		} catch (Exception e) {

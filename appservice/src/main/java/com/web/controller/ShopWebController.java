@@ -104,7 +104,7 @@ public class ShopWebController extends BaseController {
 				message = "参数不合法";
 			} else {
 				Map<String, Object> map = BeanHelper.objectToMap(shop);
-				if (bShopService.updateByPK(map, TABLENAME) != 1) {
+				if (bShopService.updateByPK(map,shop.getId(), TABLENAME) != 1) {
 					isSuccess = false;
 					message = MessageConstant.UPDATE_FALIL;
 				}
@@ -135,7 +135,7 @@ public class ShopWebController extends BaseController {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("id", id);
 				map.put("statu", "0"); // 不做物理删除，做标记删除
-				bShopService.updateByPK(map, TABLENAME);
+				bShopService.updateByPK(map,id, TABLENAME);
 			}
 			return responseInfo(message, isSuccess);
 		} catch (Exception e) {

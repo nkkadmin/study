@@ -25,7 +25,9 @@
    	  update ${tableName}
    	  <set>
    	  	 <foreach collection="paramMap" index="key" item="value" separator=",">
-	 		${key} = #{value,jdbcType=VARCHAR}	 	
+   	  	 	<if test="key != 'id'">
+		 		${key} = #{value,jdbcType=VARCHAR}	 	
+   	  	 	</if>
    	  	 </foreach>
    	  </set> 
    	  where id = #{id,jdbcType=DECIMAL}

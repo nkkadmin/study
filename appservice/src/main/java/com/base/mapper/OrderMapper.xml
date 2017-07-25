@@ -28,7 +28,7 @@
 	<select id="getShopByUserId" resultType="com.base.model.OrderCustom">
 		SELECT  o.id,o.createtime,o.statu,u.username AS buyer,su.username AS seller,
 		s.name AS shopName,s.price,s.discountprice,s.img AS shipImg,s.id AS shipId,
-		a.address
+		a.address as address
 		FROM xsxteam.order o LEFT JOIN xsxteam.`user` u ON o.uid = u.id
 		LEFT JOIN xsxteam.`shop` s ON o.sid = s.id
 		LEFT JOIN xsxteam.`user` su ON s.userid = su.id

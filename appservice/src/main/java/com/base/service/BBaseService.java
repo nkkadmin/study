@@ -50,11 +50,11 @@ public interface BBaseService<T> {
 	 * 
 	 * @param map
 	 *            需要修改的数据： key 为数据库字段，value为要修改的值
-	 * @param id
+	 * @param PK
 	 *            主鍵
 	 * @return
 	 */
-	public int updateByPK(Map<String, Object> map, String tableName) throws Exception;
+	public int updateByPK(Map<String, Object> map,Integer PK, String tableName) throws Exception;
 
 	/**
 	 * 添加数据

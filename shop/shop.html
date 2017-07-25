@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.pos {
+				position: absolute;
+				right: 15px;
+				top: 30px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">商品列表</h1>
+		</header>
+		<div id="refreshContainer" class="mui-content mui-scroll-wrapper">
+			<ul class="mui-table-view">
+			</ul>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				pullRefresh: {
+					container: "#refreshContainer", //待刷新区域标识，querySelector能定位的css选择器均可，比如：id、.class等
+					up: {
+						height: 50, //可选.默认50.触发上拉加载拖动距离
+						auto: true, //可选,默认false.自动上拉加载一次
+						contentrefresh: "正在加载...", //可选，正在加载状态时，上拉加载控件上显示的标题内容
+						contentnomore: '没有更多数据了', //可选，请求完毕若没有更多数据时显示的提醒内容；
+						callback: function() {
+							var self = this; // 这里的this == mui('#refreshContainer').pullRefresh()
+							// 加载更多的内容
+							initShop(this);
+						} //必选，刷新函数，根据具体业务来编写，比如通过ajax从服务器获取新数据；
+					}
+				}
+			}, {
+				preloadPages: [{ //预加载目标页面
+					'url': 'shopdetail.html',
+					'id': 'shopdetail.html'
+				}]
+			});
+			var pageNo = 0;
+
+			function initShop(pullRefresh) {
+				pageNo += 1;
+				mui.ajax('http://192.168.10.118:8082/appservice/shopApp/queryAllShop', {
+					data: {
+						pageNo: pageNo
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(result) {
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						console.log(result)
+						if(result != null) {
+							
+							var data = result.rows;
+							for(var i = 0; i < data.length; i++) {
+								$(".mui-table-view").append("<li class='mui-table-view-cell mui-media to_info'><a href='javascript:;'>" +
+									"<img value=" + data[i].id + " class=\"mui-media-object mui-pull-left\" src=" + data[i].img + "><div class=\"mui-media-body\">" +
+									"" + data[i].name + "<span style=\"float: right; text-decoration:line-through;\">$" + data[i].price + "</span>" +
+									"<span class='pos'>$" + data[i].discountprice + "</span><p class='mui-ellipsis'>" + data[i].desc + "</p></div></a></li>");
+							}
+							// 如果有更多数据，则继续
+							pullRefresh.endPullupToRefresh(false);
+						} else {
+							// 如果没有更多数据了，则关闭上拉加载
+							pullRefresh.endPullupToRefresh(true);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						alert(type);
+					}
+				});
+			}
+			$(function() {
+				setTimeout(function() {
+					var detail = null;
+					$(".to_info").bind("tap", function(e) {
+						if(!detail) {
+							detail = plus.webview.getWebviewById('shopdetail.html');
+						}
+						var currentId = $(this).find("img").attr("value");
+						//传值给详情页面，通知加载新数据
+						mui.fire(detail, 'getDetail', {
+							id: currentId
+						});
+						mui.openWindow({
+							url: "shopdetail.html",
+							id: "detail",
+							show: {
+								duration: 300
+							}
+						});
+					});
+				}, 1000);
+			});
+		</script>
+	</body>
+
+</html>

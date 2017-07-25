@@ -53,13 +53,15 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css"
-		]
+		],
+		"refer": []
 	},
 	"shopList.html": {
 		"resources": [
 			"js/mui.min.js",
 			"css/mui.min.css"
-		]
+		],
+		"refer": []
 	},
 	"reg.html": {
 		"resources": [
@@ -80,6 +82,35 @@
 			"css/mui.min.css",
 			"css/style.css",
 			"fonts/mui.ttf"
+		],
+		"refer": []
+	},
+	"shop.html": {
+		"resources": [
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	},
+	"address.html": {
+		"resources": [
+			"js/base.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"address_edit.html"
+		]
+	},
+	"address_edit.html": {
+		"resources": [
+			"js/base.js",
+			"js/jquery.min.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css"
 		]
 	}
 }

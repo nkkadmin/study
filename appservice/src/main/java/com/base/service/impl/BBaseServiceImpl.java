@@ -73,11 +73,11 @@ public class BBaseServiceImpl<T> implements BBaseService<T> {
 		baseMappper.deleteDataByPK(map);
 	}
 
-	public int updateByPK(Map<String, Object> map, String tableName) throws Exception {
+	public int updateByPK(Map<String, Object> map,Integer PK, String tableName) throws Exception {
 		if (map == null || tableName == null) {
 			throw new CustomException("存在为空的参数：【map】：" + map + ",【tableName】：" + tableName);
 		}
-		return baseMappper.updateByPK(map, Integer.parseInt(map.get("id").toString()), tableName);
+		return baseMappper.updateByPK(map, PK, tableName);
 	}
 
 	public int insertData(Map<String, Object> map, String tableName) throws Exception {

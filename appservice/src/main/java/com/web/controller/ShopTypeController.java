@@ -112,7 +112,7 @@ public class ShopTypeController extends BaseController {
 		}
 		try {
 			Map<String, Object> map = BeanHelper.objectToMap(shopType);
-			int num = bShopTypeService.updateByPK(map, TABLENAME);
+			int num = bShopTypeService.updateByPK(map,shopType.getId(), TABLENAME);
 			if (num == 1)
 				return responseInfo(MessageConstant.UPDATE_SUCCESS, true);
 		} catch (Exception e) {
