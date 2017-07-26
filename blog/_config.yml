@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
-author: John Doe
-language:
+title: 程序的开始
+subtitle: 我们对于 HELLO WORLD 并不陌生，从他开始，由他...
+description: 
+author: XKO
+language: zh-CN
 timezone:
 
 # URL
@@ -68,6 +68,6 @@ theme: maupassant
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:github
+  type:git
   repository:https://github.com/nkkadmin/nkkadmin.github.io.git
   branch:master

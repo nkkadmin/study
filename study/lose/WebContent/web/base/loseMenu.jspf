@@ -1,0 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<ul>
+	<li><a class="aktif" href="shop_addUI.action?type=lose">我<b>丢东西啦</b></a></li>
+	<li><a href="shop_addUI.action?type=take">我是<b>好人</b></a></li>
+</ul>

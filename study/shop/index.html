@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/headSearch.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<style>
+			.mui-indexed-list-search-input {
+				width: 30px;
+				height: 100%;
+			}
+			.mui-bar .mui-title{
+				right: 80px;
+				left: 80px;
+			}
+			.bottom{
+				text-align: center;
+				font-size: 18px;
+				color: #cdcdcd;
+				font-weight: bold;
+				height: 30px;
+				line-height: 30px;
+			}
+			#goTopBtn{
+				position: fixed;
+				line-height: 36px;
+				width: 36px;
+				bottom: 35px;
+				height: 36px;
+				cursor: pointer;
+				display: none;
+				background: url(img/top.png);
+			}
+			.redColor{
+				color: red;
+				font-size: 12px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a href="#" id="menu">
+				<div style="height: 40px;width: 18%;float: left;line-height: 45px;text-align: left;color: white;font-size: 14px;position: relative;">商品分类</div>
+			</a>
+			<h1 class="mui-title">
+	    	<div class="mui-input-row mui-search" id="search">
+	    	    <input type="search" target='search.html' placeholder="搜索产品" class="mui-input-clear mui-indexed-list-search-input">
+	    	</div>
+	    </h1>
+			<div id="newuser" style="height: 100%;width: 20%;float: right;line-height: 45px;text-align: right;color: white;font-size: 14px;cursor: pointer;">注册会员</div>
+		</header>
+		<div class="mui-content">
+			<div id="slider" class="mui-slider" style="margin-bottom: 10px;">
+				<div class="mui-slider-group mui-slider-loop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="http://placehold.it/400x300">
+						</a>
+					</div>
+					<!-- 第一张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="http://placehold.it/400x300">
+						</a>
+					</div>
+					<!-- 第二张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="http://placehold.it/400x300">
+						</a>
+					</div>
+					<!-- 第三张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="http://placehold.it/400x300">
+						</a>
+					</div>
+					<!-- 第四张 -->
+					<div class="mui-slider-item">
+						<a href="#">
+							<img src="http://placehold.it/400x300">
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#">
+							<img src="http://placehold.it/400x300">
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+
+			<ul class="mui-table-view mui-grid-view" style="margin-bottom: 10px;">
+				<h5 style="padding-top: 10px;,margin-left: 20px;color: #333333;font-size: 14px;">名店推荐
+					<span class="mui-pull-right" style="color: #64c987;font-size: 12px;font-weight: 400;" id="btnmoreless">更多</span>
+				</h5>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a class="pro">
+						<img class="mui-media-object" src="img/main/coco.png" style="width:60%"/>
+						<div class="mui-media-body" style="font-size: 12px;color: #393939;">coco</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a class="pro">
+						<img class="mui-media-object" src="img/main/dian.png" style="width:60%"/>
+						<div class="mui-media-body" style="font-size: 12px;color: #393939;">一点点</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a class="pro">
+						<img class="mui-media-object" src="img/main/jipai.png" style="width:60%"/>
+						<div class="mui-media-body" style="font-size: 12px;color: #393939;">动力机车</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a class="pro">
+						<img class="mui-media-object" src="img/main/tl.png" style="width:60%"/>
+						<div class="mui-media-body" style="font-size: 12px;color: #393939;">提拉米苏</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a class="pro">
+						<img class="mui-media-object" src="img/main/coco.png" style="width:60%"/>
+						<div class="mui-media-body" style="font-size: 12px;color: #393939;">甜甜圈</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4">
+					<a class="pro">
+						<img class="mui-media-object" src="img/main/huang.png" style="width:60%"/>
+						<div class="mui-media-body" style="font-size: 12px;color: #393939;">黄焖鸡</div>
+					</a>
+				</li>
+			</ul>
+
+		</div>
+
+		<ul class="mui-table-view mui-grid-view" style="margin-bottom: 10px;">
+			<h5 style="padding-top: 10px;,margin-left: 20px;color: #333333;font-size: 14px;">热销产品
+					<span class="mui-pull-right" style="color: #64c987;font-size: 12px;font-weight: 400;" id="btnmoreless">更多</span>
+				</h5>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 product">
+				<a class="prodetail">
+					<img class="mui-media-object" src="img/main/coco.png" />
+					<div class="mui-media-body" style="font-size: 14px;color: #393939;margin-top: -4px;">COCO</div>
+					<div class="redColor">
+						5元 / 两
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 product">
+				<a class="prodetail">
+					<img class="mui-media-object" src="img/main/huang.png" />
+					<div class="mui-media-body" style="font-size: 14px;color: #393939;margin-top: -4px;">黄焖鸡</div>
+					<div class="redColor">
+						5元 / 两
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 product">
+				<a class="prodetail">
+					<img class="mui-media-object" src="img/main/tl.png" />
+					<div class="mui-media-body" style="font-size: 14px;color: #393939;margin-top: -4px;">提拉米苏</div>
+					<div class="redColor">
+						5元 / 两
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 product">
+				<a class="prodetail">
+					<img class="mui-media-object" src="img/main/dian.png" />
+					<div class="mui-media-body" style="font-size: 14px;color: #393939;margin-top: -4px;">一点点</div>
+					<div class="redColor">
+						5元 / 两
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 product">
+				<a class="prodetail">
+					<img class="mui-media-object" src="img/main/jipai.png" />
+					<div class="mui-media-body" style="font-size: 14px;color: #393939;margin-top: -4px;">动力机车</div>
+					<div class="redColor">
+						5元 / 两
+					</div>
+				</a>
+			</li>
+			<li class="mui-table-view-cell mui-media mui-col-xs-6 product">
+				<a class="prodetail">
+					<img class="mui-media-object" src="img/main/coco.png" />
+					<div class="mui-media-body" style="font-size: 14px;color: #393939;margin-top: -4px;">COCO</div>
+					<div class="redColor">
+						5元 / 两
+					</div>
+				</a>
+			</li>
+		</ul>
+		<!--回到顶部-->
+		<div id="goTopBtn"></div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init();
+			$(window).scroll(function(){
+				var src = $(window).scrollTop();
+				var rwidth = $(window).width();
+				if(src > 0){
+					$("#goTopBtn").css("display",'block');
+					$("#goTopBtn").css("left",(rwidth - 50)  + "px");
+				}else{
+					$("#goTopBtn").css("display","none"); 
+				} 
+			});
+			
+			$("#goTopBtn").click(function(){
+				var src = $(window).scrollTop();
+				$("body,html").animate({
+					scrollTop:0
+				},500);
+			});
+			
+			$(".pro").bind("tap",function(e){
+				e.preventDefault();
+				/*e.preventBubble();*/
+				mui.openWindow({
+					url:"prolist.html",
+					id:"pro",
+					show:{
+						duration:300
+					}
+				});
+			});
+			
+			$("#newuser").bind("tap",function(e){
+				e.preventDefault();
+				mui.openWindow({
+					url:"reg.html",
+					id:"newuser",
+					show:{
+						duration:300
+					}
+				});
+			});
+		</script>
+	</body>
+	
+
+</html>

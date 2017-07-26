@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">coco</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="mui-content-padded" id="productImg">
+		    	<img src="img/main/coco.png" style="width: 100%;"
+		    </div>
+		    <ul class="mui-table-view" style="font-size: 14px;">
+	            <li class="mui-table-view-cell" style="font-size: 16px;">
+	            	COCO
+	            	<span style="font-size: 14px;color: #fe6464;">15元/杯</span>
+	            	<button class="mui-btn mui-pull-right" style="right: 130px;">+关注</button>
+	            	<span class="mui-btn mui-pull-right">已关注100人</span>
+	            </li>
+	           <p style="padding-left: 20px;color: red;font-size: 12px;">非常满意(80)&nbsp;&nbsp;满意(90)&nbsp;&nbsp;一般(20)&nbsp;&nbsp;不满意(10)</p>
+	           <li class="mui-table-view">
+	           		<p>阿大声道昂时代就按是的呀is电动机阿舍不得加速度一啊所以丢按时丢失的，阿大声道昂时代就按是的呀is电动机阿舍不得加速度一啊所以丢按时丢失的</p>
+	           </li>
+	        </ul>
+	        <nav class="mui-bar mui-bar-tab">
+	            <a class="mui-tab-item mui-active">
+	                <span class="mui-icon" id="cart">
+	                	<img src="img/shop.png" style="width: 20px;height: 20px;"/>
+	                </span> 
+	                <span class="mui-tab-label" >购物车</span>
+	            </a> 
+	            <a class="mui-tab-item">
+	                <span class="mui-icon">
+	                	<img src="img/guang.png" style="width: 20px;height: 20px;"/>
+	                </span>
+	                <span class="mui-tab-label">进店逛逛</span>
+	            </a>
+	            <a class="mui-tab-item" style="width: 10px;" href="#">
+	               <div class="mui-button-row">
+	               		<button class="mui-btn" id="prodyctCountReduce">-</button>
+	               		<button class="mui-btn" id="prodyctCount">1</button>
+	               		<button class="mui-btn" id="prodyctCountPlus">+</button>
+	               		<button class="mui-btn mui-btn-negative" id="btnAddToCart">加入购物车</button>
+	               </div>
+	            </a>
+	        </nav>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			$(function(){
+				$("#prodyctCountPlus").bind("tap",function(){
+					var c = $("#prodyctCount").text();
+					$("#prodyctCount").text(parseInt(c)+1);
+				});
+				$("#prodyctCountReduce").bind("tap",function(){
+					var cn = parseInt($("#prodyctCount").text());
+					if(cn == 1){
+						return false;
+					}
+					$("#prodyctCount").text(cn-1);
+				});
+				$("#btnAddToCart").bind("tap",function(){
+					var cart = $("#cart");
+					var child = cart.children("span").length;
+					if(child == 0){
+						cart.append("<span class=\"mui-badge\" id='cartCount'>1</span>");
+					}else{
+						var cartCount = $("#cartCount").text();
+						var cartCountText = parseInt(cartCount);
+						cartCountText += 1;
+						$("#cartCount").text(cartCountText);
+					}
+				});
+			})
+		</script>
+	</body>
+
+</html>

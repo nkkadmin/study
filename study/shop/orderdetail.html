@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style>
+			.interval {
+				height: 10px;
+				background-color: #EFEFF4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">确认订单</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-media">
+					<a href="javascript:;">
+						<span class="mui-media-object mui-pull-left mui-icon mui-icon-location"></span>
+						<div class="mui-media-body">
+							<span id="receiver">谢生翔</span>
+							<span id="receiverPhone" style="float: right;">15821292493</span>
+							<p class="mui-ellipsis" id="receiverAddress">收获地址：能和心爱的人一起睡觉，能和心爱的人一起睡觉，是件怎么办？</p>
+						</div>
+						<input type="hidden" id="addressId" />
+						<input type="hidden" id="sid" />
+						<input type="hidden" id="orderId" /><!--下单成功后返回的订单id-->
+					</a>
+				</li>
+				<div class="interval"></div>
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						商品名称：
+						<span class="mui-ellipsis" id="shopName">能和心爱的人一觉，是件怎么办？</span>
+					</div>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<div class="mui-media-body">
+						购买数量：
+						<span class="mui-ellipsis" id="paynum">1</span>
+					</div>
+				</li>
+			</ul>
+			<nav class="mui-bar mui-bar-tab">
+				<span style="float: right;height: 50px;">
+					<span style="line-height: 50px;" id="totalPrice">合计：￥11.00</span>
+				<button id="createOrder" type="button" class="mui-btn mui-btn-blue" style="height: 50px;margin-top: -7px;">提交订单</button>
+				</span>
+			</nav>
+			<div id="sheet" class="mui-popover mui-popover-bottom mui-popover-action ">
+			    <!-- 可选择菜单 -->
+			    <ul class="mui-table-view">
+			      <li class="mui-table-view-cell">
+			      	支付金额：100.00
+			      </li>
+			    </ul>
+			    <!-- 取消菜单 -->
+			    <ul class="mui-table-view">
+			      <li class="mui-table-view-cell">
+			        <a href="#sheet1" id="payMoney"><b>付款</b></a>
+			      </li>
+			      <li class="mui-table-view-cell">
+			        <a href="#sheet1" id="hideSheet"><b>取消</b></a>
+			      </li>
+			    </ul>
+			</div>
+		</div>
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/base.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			var sid = null;
+			var paynum = 0;
+			var shopName = null;
+			var price = 0;
+			mui.plusReady(function(){
+				var self = plus.webview.currentWebview();
+				sid = self.shipId;
+				paynum = self.paynum;
+				shopName = self.shopName;
+				$("#sid").val(sid);
+				$("#shopName").text(shopName);
+				$("#paynum").text(paynum);
+				price = self.price;
+			});
+			init();
+			//获取当前用户默认的配送地址
+			function init(){
+				mui.post(service_url+"/addressApp/getUserDefaultAddress",function(result){
+					console.log(result);
+					if(result != null){
+						$("#receiver").text(result.receiver);
+						$("#receiverPhone").text(result.receiverphone);
+						$("#receiverAddress").text(result.address);
+						$("#addressId").val(result.id);
+					}
+				});
+			}
+			$("#hideSheet").bind("tap",function(){
+				mui('#sheet').popover('hide');
+			});
+			
+			$("#createOrder").bind("tap",function(){
+				mui.post(service_url+"/orderApp/createOrder",{sid:$("#sid").val(),paynum:$("#paynum").text(),deliveryaddressid:$("#addressId").val()},function(result){
+					console.log(result.data);
+					mui.toast(result.message,{duration:'short',type:'div'});
+					if(result.success){
+						$("#orderId").val(result.data);
+						mui('#sheet').popover('show');
+					}
+				});
+			});
+			
+			$("#payMoney").bind("tap",function(){
+				mui.post(service_url+"/orderApp/pay",{orderId:$("#orderId").val()},function(result){
+					mui.toast(result.message,{duration:'short',type:'div'});
+					if(result.success){
+						//跳转到订单页面
+						mui.openWindow({
+							url: "order.html",
+							show: {
+								duration: 300
+							}
+						});
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

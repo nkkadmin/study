@@ -1,13 +1,10 @@
 package com.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,69 +13,87 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.app.model.AjaxJson;
-import com.app.model.User;
+import com.base.commons.constant.MessageConstant;
+import com.base.controller.BaseController;
+import com.base.model.Page;
+import com.base.model.User;
+import com.base.service.BUserService;
+import com.base.util.BeanHelper;
+import com.base.util.DateHelper;
 import com.base.util.StringHelper;
-import com.web.service.IUserService;
 
 @Controller
 @RequestMapping("/user")
-public class UserWebController {
+public class UserWebController extends BaseController {
+
+	final String UI_URL = "manager/User";
 
 	@Resource
-	private IUserService userService;
+	private BUserService bUservice;
 
-	/**
-	 * 用于存储用户数据
-	 */
-	private static Map<String, User> dataMap = new HashMap<>();
+	private static final String TABLENAME = "user";
 
-	@RequestMapping(value = "/loginUI", method = RequestMethod.GET)
-	public ModelAndView loginUI() {
-		return new ModelAndView("login");
-	}
+	
 
 	@RequestMapping(value = "/addUserUI", method = RequestMethod.GET)
 	public ModelAndView addUserUI() {
-		return new ModelAndView("register");
+		return new ModelAndView(UI_URL + "/edit");
+	}
+	
+	
+	@RequestMapping(value = "/editUserUI", method = RequestMethod.GET)
+	public ModelAndView editUserUI(Integer id) {
+		ModelAndView mv = new ModelAndView(UI_URL + "/edit");
+		try {
+			User user = bUservice.queryByPK(new User(), TABLENAME, id);
+			mv.addObject("user", user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mv;
 	}
 
 	@RequestMapping(value = "/userListUI", method = RequestMethod.GET)
 	public ModelAndView userListUI() {
-		return new ModelAndView("userlist");
+		return new ModelAndView(UI_URL + "/index");
 	}
 
+	/**
+	 * 登录
+	 * @param loginName
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson login(String loginName, String password) {
-		AjaxJson ajax = new AjaxJson();
+	public AjaxJson login(String loginName, String password,HttpServletRequest request) {
 		boolean isSuccess = true;
-		String message = "登录成功!";
+		String message = "登录成功";
 		try {
 			if (StringHelper.isEmpty(loginName)
 					|| StringHelper.isEmpty(password)) {
 				isSuccess = false;
-				message = "用户名或密码不能为空!";
+				message = "用户名、密码都不能为空";
 			} else {
-				User user = dataMap.get(loginName);
+				User user = bUservice.getUserByLoginName(loginName);
 				if (user == null) {
 					isSuccess = false;
-					message = "该用户不存在!";
+					message = "不存在该用户";
 				} else {
-					if (!user.getLoginName().equals(loginName)
+					if (!user.getLoginname().equals(loginName)
 							|| !user.getPassword().equals(password)) {
 						isSuccess = false;
-						message = "用户名密码错误!";
+						message = "用户名密码错误";
+					} else {
+						request.getSession().setAttribute("userInfo", user);
 					}
 				}
 			}
-			ajax.setSuccess(isSuccess);
-			ajax.setMessage(message);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("登录服务异常!");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常!", false);
 		}
-		return ajax;
 	}
 
 	/**
@@ -92,175 +107,152 @@ public class UserWebController {
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxJson addUser(User user, String confirmPassword) {
-		System.out.println("=====addUser=====");
-		AjaxJson ajax = new AjaxJson();
 		boolean isSuccess = true;
-		String message = "注册成功!";
+		String message = MessageConstant.ADD_SUCCESS;
 		try {
-			if (StringHelper.isEmpty(user.getLoginName())
+			if (StringHelper.isEmpty(user.getLoginname())
 					|| StringHelper.isEmpty(user.getPassword())
 					|| StringHelper.isEmpty(user.getUsername())
 					|| StringHelper.isEmpty(user.getSex())
 					|| user.getAge() == null
 					|| StringHelper.isEmpty(confirmPassword)) {
 				isSuccess = false;
-				message = "存在为空的数据，请确认后再提交!";
-			} else if (!user.getPassword().equals(confirmPassword)) {
+				message = MessageConstant.INPUT_HAS_NULL;
+			} else if (!user.getPassword().equals(confirmPassword)
+					|| confirmPassword == null || confirmPassword.equals("")) {
 				isSuccess = false;
-				message = "两次密码不正确，请重新输入!";
+				message = "两次密码不一致!";
 			} else {
-				User dataUser = dataMap.get(user.getLoginName());
-				if (dataUser != null) {
+				User userByLogin = bUservice.getUserByLoginName(user
+						.getLoginname());
+				if (userByLogin != null) {
 					isSuccess = false;
-					message = "该用户名已经存在，请换个用户名!";
+					message = "该用户名已经存在，请更换!";
 				} else {
-					/*boolean b = userService.addUser(user);
-					System.out.println("结果：" + b);*/
-					dataMap.put(user.getLoginName(), user);
+					user.setStatu("1");
+					user.setCreatetime(DateHelper.nowDate());
+					Map<String, Object> map = BeanHelper.objectToMap(user);
+					if (bUservice.insertData(map, TABLENAME) != 1) {
+						isSuccess = false;
+						message = MessageConstant.ADD_FALIL;
+					}
 				}
 			}
-			ajax.setSuccess(isSuccess);
-			ajax.setMessage(message);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("注册服务异常");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
 
 	/**
 	 * 获取用户列表
-	 * 
+	 * @param page
+	 * @param name
 	 * @return
 	 */
 	@RequestMapping(value = "/userList", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson userList() {
-		AjaxJson ajax = new AjaxJson();
-		boolean isSuccess = true;
+	public Page<User> userList(Page<User> page,String name) {
 		try {
-			Set set = dataMap.keySet();
-			Iterator it = set.iterator();
-			List<User> list = new ArrayList<>();
-			while (it.hasNext()) {
-				Object obj = it.next();
-				System.out.println(obj);
-				User user = dataMap.get(obj);
-				list.add(user);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("tableName", TABLENAME);
+			if(!StringHelper.isEmpty(name)){
+				map.put("name", name);
 			}
-			ajax.setSuccess(isSuccess);
-			ajax.setList(list);
+			page = bUservice.queryForListAllPage(new User(), map, page);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("注册服务异常");
-			return ajax;
+			e.printStackTrace();
 		}
-		return ajax;
+		return page;
 	}
-	
+
 	/**
-	 * 根据用户名获取用户信息
+	 * 根据id获取用户信息
+	 * 
 	 * @param loginName
 	 * @return
 	 */
-	@RequestMapping(value = "/getUserInfoByLoginName", method = RequestMethod.GET)
+	@RequestMapping(value = "/getUserInfoByUserId", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson getUserInfoByLoginName(String loginName) {
-		AjaxJson ajax = new AjaxJson();
+	public AjaxJson getUserInfoByUserId(Integer userId) {
 		boolean isSuccess = true;
+		String message = "请求成功!";
+		User user = new User();
 		try {
-			if(loginName == null){
+			if (userId == null) {
 				isSuccess = false;
-				ajax.setMessage("参数不合法!");
-			}else{
-				User user = dataMap.get(loginName);
-				if(user == null){
+				message = "参数不合理!";
+			} else {
+
+				user = bUservice.queryByPK(user, TABLENAME, userId);
+				if (user == null) {
 					isSuccess = false;
-					ajax.setMessage("该用户不存在!");
-				}else{
-					ajax.setData(user);
+					message = "该用户不存在!";
 				}
 			}
-			ajax.setSuccess(isSuccess);
+			return responseInfo(message, isSuccess, user);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
-	
+
 	/**
 	 * 修改用户信息
+	 * 
 	 * @param user
 	 * @return
 	 */
-	@RequestMapping(value = "/updateUserByLoginName", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateUserByUserId", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxJson updateUserByLoginName(User user) {
-		AjaxJson ajax = new AjaxJson();
+	public AjaxJson updateUserByUserId(User user) {
 		boolean isSuccess = true;
+		String message = "修改成功";
 		try {
-			if(user.getLoginName() == null){
+			if (user.getId() == null) {
 				isSuccess = false;
-				ajax.setMessage("参数不合法!");
-			}else{
-				User dataUser = dataMap.get(user.getLoginName());
-				if(user == null){
+				message = "参数不合法";
+			} else {
+				Map<String, Object> map = BeanHelper.objectToMap(user);
+				if (bUservice.updateByPK(map,user.getId(), TABLENAME) != 1) {
 					isSuccess = false;
-					ajax.setMessage("该用户不存在!");
-				}else{
-					User updateUser = new User();
-					updateUser.setLoginName(user.getLoginName());
-					updateUser.setPassword(dataUser.getPassword());
-					updateUser.setUsername(user.getUsername() == null ? dataUser.getUsername() : user.getUsername());
-					updateUser.setSex(user.getSex() == null ? dataUser.getSex() : user.getSex());
-					updateUser.setAge(user.getAge() == null ? Integer.parseInt(dataUser.getSex()) : user.getAge());
-					dataMap.put(user.getLoginName(), updateUser);
-					ajax.setMessage("修改成功!");
+					message = "修改失败";
 				}
 			}
-			ajax.setSuccess(isSuccess);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
-	
+
 	/**
-	 * 删除用户信息
+	 * 删除用户
+	 * 
 	 * @param loginName
 	 * @return
 	 */
-	@RequestMapping(value = "/deleteUserByLoginName", method = RequestMethod.GET)
+	@RequestMapping(value = "/deleteUserByUserId", method = RequestMethod.GET)
 	@ResponseBody
-	public AjaxJson deleteUserByLoginName(String loginName) {
-		AjaxJson ajax = new AjaxJson();
+	public AjaxJson deleteUserByUserId(Integer userId) {
 		boolean isSuccess = true;
+		String message = "删除成功";
 		try {
-			if(loginName == null){
+			if (userId == null) {
 				isSuccess = false;
-				ajax.setMessage("参数不合法!");
-			}else{
-				User dataUser = dataMap.get(loginName);
-				if(dataUser == null){
-					isSuccess = false;
-					ajax.setMessage("该用户不存在,不能删除!");
-				}else{
-					dataMap.remove(loginName);
-					ajax.setMessage("删除成功!");
-				}
+				message = "参数不合理!";
+			} else {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", userId);
+				map.put("statu", "0"); // 不做物理删除，做标记删除
+				bUservice.updateByPK(map,userId, TABLENAME);
 			}
-			ajax.setSuccess(isSuccess);
+			return responseInfo(message, isSuccess);
 		} catch (Exception e) {
-			ajax.setSuccess(false);
-			ajax.setMessage("服务异常");
-			return ajax;
+			e.printStackTrace();
+			return responseInfo("服务异常", false);
 		}
-		return ajax;
 	}
-	
+
 }

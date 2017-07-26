@@ -1,0 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+${userSessionInfo }
+<div id="login">
+	<a href="#" id="link" class="signin">登陆</a>
+	<form class="drop" action="user_login.action" method="post">
+		<label for="name" class="css">用户名:</label> 
+			<input type="text" name="name" class="required" /> 
+		<label for="password">密码:</label> 
+			<input type="password" name="password" class="required1" />
+		<input type="submit" class="submit" value="登陆" />
+	</form>
+</div>

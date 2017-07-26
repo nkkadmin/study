@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.ssh.lose.po.User" table="User">
+		<id name="id" type="java.lang.Integer">
+			<generator class="increment" />
+		</id>
+		<property name="name" type="java.lang.String" />
+		<property name="password" type="java.lang.String" />
+		<property name="telphone" type="java.lang.String" length="11"/>
+		<property name="statu" type="java.lang.String" length="10"/>
+		<property name="create_time" type="java.lang.String" />
+	</class>
+</hibernate-mapping>

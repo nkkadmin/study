@@ -1,0 +1,149 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<style type="text/css">
+			img {
+				height: 250px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title shopName"></h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-slider">
+				<div class="mui-slider-group" id="imgs">
+					<div class="mui-slider-item">
+						<a href="#"><img src="" /></a>
+					</div>
+				</div>
+			</div>
+			<ul class="mui-table-view" style="font-size: 14px;">
+				<li class="mui-table-view-cell" style="font-size: 16px;">
+					<span class="shopName"></span>
+					<span style="font-size: 14px;color: #fe6464;" class="priceClass"></span>
+					<button class="mui-btn mui-pull-right" style="right: 130px;">+关注</button>
+					<span class="mui-btn mui-pull-right">已关注100人</span>
+				</li>
+				<p style="padding-left: 20px;color: red;font-size: 12px;">非常满意(80)&nbsp;&nbsp;满意(90)&nbsp;&nbsp;一般(20)&nbsp;&nbsp;不满意(10)</p>
+				<li class="mui-table-view">
+					<p id="descText"></p>
+				</li>
+			</ul>
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active">
+					<span class="mui-icon" id="cart">
+	                	<img src="img/shop.png" style="width: 20px;height: 20px;"/>
+	                </span>
+					<span class="mui-tab-label">购物车</span>
+				</a>
+				<a class="mui-tab-item">
+					<span class="mui-icon">
+	                	<img src="img/guang.png" style="width: 20px;height: 20px;"/>
+	                </span>
+					<span class="mui-tab-label">进店逛逛</span>
+				</a>
+				<a class="mui-tab-item" style="width: 10px;padding-bottom: 15px;" href="#">
+					<div class="mui-button-row">
+						<button class="mui-btn" id="prodyctCountReduce">-</button>
+						<button class="mui-btn" id="prodyctCount">1</button>
+						<button class="mui-btn" id="prodyctCountPlus">+</button>
+						<!--<button class="mui-btn mui-btn-negative" id="btnAddToCart">加入购物车</button>-->
+						<button class="mui-btn mui-btn-blue" id="immediatelyPay">立即购买</button>
+					</div>
+				</a>
+			</nav>
+		</div>
+		<input type="hidden" id="shipId" />
+		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/base.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript">
+			//mui.init();
+			var id = null;
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				id = self.shipId;
+				$("#shipId").val(id);
+			});
+			setTimeout(function() {
+				if(id != null) {
+					getShopInfo(id);
+				}
+			}, 1000);
+
+			function getShopInfo(id) {
+				mui.ajax(service_url + '/shopApp/queryShopByPK', {
+					data: {
+						id: id
+					},
+					dataType: 'json', //服务器返回json格式数据
+					type: 'post', //HTTP请求类型
+					timeout: 10000, //超时时间设置为10秒；
+					success: function(result) {
+						//console.log(result);
+						//服务器返回响应，根据响应结果，分析是否登录成功；
+						if(result != null) {
+							$(".shopName").text(result.name);
+							$(".priceClass").text("$" + result.price);
+							$("#descText").text(result.desc);
+							if(result.img != null) {
+								var imgs = result.img.split(";");
+								$("#imgs").empty();
+								for(var i = 0; i < imgs.length; i++) {
+									if(imgs[i] != '') {
+										console.log(imgs[i]);
+										$("#imgs").append("<div class=\"mui-slider-item\"><a href=\"#\"><img src=\"" + imgs[i] + "\" /></a></div>")
+									}
+								}
+							}
+							//显示当前页面
+							mui.currentWebview.show();
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						alert(type);
+					}
+				});
+			}
+			
+			$("#prodyctCountReduce").bind("tap",function(){
+				var num = parseInt($("#prodyctCount").text());
+				if(num > 1){
+					$("#prodyctCount").text(num-1);
+				}
+			});
+			
+			$("#prodyctCountPlus").bind("tap",function(){
+				var num = parseInt($("#prodyctCount").text());
+				$("#prodyctCount").text(num+1);
+			});
+			
+			//下单
+			$("#immediatelyPay").bind("tap", function() {
+				mui.openWindow({
+					url: "orderdetail.html",
+					show: {
+						duration: 300
+					},
+					extras: { //传参
+						shipId: $("#shipId").val(),
+						shopName:$(".mui-title").text(),
+						paynum:$("#prodyctCount").text(),
+						price:$(".priceClass").text().replace("$","")
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.mapper.MenuMapper" >
+  <resultMap id="BaseResultMap" type="com.base.model.Menu" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="commont" property="commont" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="getMenuByName" resultMap="BaseResultMap">
+   	  select * from menu m where m.name = #{menuName,jdbcType=VARCHAR}
+   </select>
+</mapper>

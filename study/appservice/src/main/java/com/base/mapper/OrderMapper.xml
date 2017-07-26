@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.mapper.OrderMapper">
+	<resultMap id="BaseResultMap" type="com.base.model.Order">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="sid" property="sid" jdbcType="INTEGER" />
+		<result column="deliveryaddressid" property="deliveryaddressid"
+			jdbcType="INTEGER" />
+		<result column="createtime" property="createtime" jdbcType="VARCHAR" />
+		<result column="statu" property="statu" jdbcType="VARCHAR" />
+		<result column="paynum" property="paynum" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getOrderByBusId" resultType="com.base.model.OrderCustom">
+		SELECT  o.id,o.createtime,o.statu,u.username AS buyer,su.username AS seller,
+		s.name AS shopName,s.price,s.discountprice,s.img AS shipImg,s.id AS shipId,
+		a.address
+		FROM xsxteam.order o LEFT JOIN xsxteam.`user` u ON o.uid = u.id
+		LEFT JOIN xsxteam.`shop` s ON o.sid = s.id
+		LEFT JOIN xsxteam.`user` su ON s.userid = su.id
+		LEFT JOIN xsxteam.`address` a ON a.id = o.deliveryaddressid
+		<where>
+			 u.roleid=(SELECT r.id FROM xsxteam.`role` r WHERE r.name='普通用户') 
+			 AND u.userid=#{busId,jdbcType=INTEGER} order by o.createtime desc
+		</where>
+	</select>
+
+	<select id="getShopByUserId" resultType="com.base.model.OrderCustom">
+		SELECT  o.id,o.createtime,o.statu,u.username AS buyer,su.username AS seller,
+		s.name AS shopName,s.price,s.discountprice,s.img AS shipImg,s.id AS shipId,
+		a.address as address
+		FROM xsxteam.order o LEFT JOIN xsxteam.`user` u ON o.uid = u.id
+		LEFT JOIN xsxteam.`shop` s ON o.sid = s.id
+		LEFT JOIN xsxteam.`user` su ON s.userid = su.id
+		LEFT JOIN xsxteam.`address` a ON a.id = o.deliveryaddressid
+		<where>
+			 u.roleid=(SELECT r.id FROM xsxteam.`role` r WHERE r.name='普通用户') 
+			 AND u.id=#{userId,jdbcType=INTEGER} order by o.createtime desc
+		</where>
+	</select>
+	<insert id="insert" parameterType="com.base.model.Order" keyProperty="id">
+      <selectKey keyProperty='id' resultType='int' order='AFTER'  >  
+         select LAST_INSERT_ID();  
+      </selectKey>  
+   	  insert into xsxteam.order
+   	  <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="sid != null" >
+        sid,
+      </if>
+      <if test="deliveryaddressid != null" >
+        deliveryaddressid,
+      </if>
+       <if test="statu != null" >
+        statu,
+      </if>
+       <if test="paynum != null" >
+        paynum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+       <if test="sid != null" >
+        #{sid,jdbcType=VARCHAR},
+      </if>
+       <if test="deliveryaddressid != null" >
+        #{deliveryaddressid,jdbcType=VARCHAR},
+      </if>
+      <if test="statu != null" >
+        #{statu,jdbcType=VARCHAR},
+      </if>
+      <if test="paynum != null" >
+        #{paynum,jdbcType=VARCHAR},
+      </if>
+    </trim>
+   </insert>
+</mapper>
