@@ -1,7 +1,5 @@
 eclipse.preferences.version=1
-encoding//src/main/java/com/app/controller/UserController.java=UTF-8
-encoding//src/main/java/com/web/controller/MenuWebController.java=UTF-8
+encoding//src/main/java/com/app/controller/AddressAppController.java=UTF-8
 encoding//src/main/java/com/web/controller/RoleWebController.java=UTF-8
 encoding//src/main/java/com/web/controller/UserWebController.java=UTF-8
-encoding//src/main/webapp/manager/Role/index.html=UTF-8
 encoding/<project>=UTF-8

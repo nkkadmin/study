@@ -65,4 +65,6 @@
     		<bean class="com.base.commons.MybatisSpringPageInterceptor"></bean>
     	</property>
     </bean>
+    
+
 </beans>

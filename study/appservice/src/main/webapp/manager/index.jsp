@@ -79,6 +79,10 @@
 						id : '10',
 						text : '订单管理',
 						href : 'Node/index.html'
+					},{
+						id : '11',
+						text : '文件管理',
+						href : '${ctx}/upload/index'
 					} ]
 				} ]
 			} ];

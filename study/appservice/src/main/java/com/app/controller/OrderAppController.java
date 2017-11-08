@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.model.AjaxJson;
 import com.app.service.OrderAppService;
 import com.base.commons.constant.MessageConstant;
 import com.base.commons.constant.OrderConstant;
 import com.base.controller.BaseController;
+import com.base.model.AjaxJson;
 import com.base.model.Order;
 import com.base.model.OrderCustom;
 import com.base.model.Page;
 import com.base.service.BOrderService;
-import com.base.util.BeanHelper;
 import com.base.util.DateHelper;
 
 @Controller

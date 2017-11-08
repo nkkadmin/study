@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.model.AjaxJson;
 import com.app.service.AddressAppService;
 import com.base.commons.constant.MessageConstant;
 import com.base.controller.BaseController;
 import com.base.model.Address;
+import com.base.model.AjaxJson;
 import com.base.service.BAddressService;
 import com.base.util.BeanHelper;
 import com.base.util.DateHelper;
@@ -23,7 +23,7 @@ import com.base.util.DateHelper;
 @Controller
 @RequestMapping("/addressApp")
 public class AddressAppController extends BaseController {
-
+	
 	final static String TABLENAME = "address";
 
 	@Resource
@@ -32,7 +32,7 @@ public class AddressAppController extends BaseController {
 	private AddressAppService addressAppService;
 
 	/**
-	 * 根据用户id获取用户地址
+	 * 鏍规嵁鐢ㄦ埛id鑾峰彇鐢ㄦ埛鍦板潃
 	 * 
 	 * @param userId
 	 * @return
@@ -41,11 +41,11 @@ public class AddressAppController extends BaseController {
 	@RequestMapping(value = "/getAddressByUserId", method = RequestMethod.GET)
 	public AjaxJson getAddressByUserId(Integer userId) {
 		List<Address> list = addressService.getAddressByUserId(userId);
-		return responseInfo("获取成功", true, null, list);
+		return responseInfo("鑾峰彇鎴愬姛", true, null, list);
 	}
 	
 	/**
-	 * 根据用户id获取默认的地址，如果没有默认地址，返回第一条
+	 * 鏍规嵁鐢ㄦ埛id鑾峰彇榛樿鐨勫湴鍧�锛屽鏋滄病鏈夐粯璁ゅ湴鍧�锛岃繑鍥炵涓�鏉�
 	 * 
 	 * @param userId
 	 * @return
@@ -64,7 +64,7 @@ public class AddressAppController extends BaseController {
 	}
 
 	/**
-	 * 添加地址
+	 * 娣诲姞鍦板潃
 	 * 
 	 * @param address
 	 * @return
@@ -78,7 +78,7 @@ public class AddressAppController extends BaseController {
 		}
 
 		Address addr = null;
-		if (address.getIsdefault().equals("1")) { // 说明设置了默认，需要把原来的默认去掉
+		if (address.getIsdefault().equals("1")) { // 璇存槑璁剧疆浜嗛粯璁わ紝闇�瑕佹妸鍘熸潵鐨勯粯璁ゅ幓鎺�
 			addr = addressAppService.getAddressByIsDefault(getCurrentUser().getId());
 		}
 		try {
@@ -96,7 +96,7 @@ public class AddressAppController extends BaseController {
 			num = addressService.insertData(map, TABLENAME);
 			if (num == 1) {
 				if (addr != null) {
-					// 将原来的默认去掉
+					// 灏嗗師鏉ョ殑榛樿鍘绘帀
 					addr.setIsdefault("0");
 					Map<String, Object> oldMap = BeanHelper.objectToMap(addr);
 					addressService.updateByPK(oldMap, addr.getId(), TABLENAME);
@@ -110,10 +110,10 @@ public class AddressAppController extends BaseController {
 	}
 
 	/**
-	 * 删除地址
+	 * 鍒犻櫎鍦板潃
 	 * 
 	 * @param id
-	 *            地址id
+	 *            鍦板潃id
 	 * @return
 	 */
 	@ResponseBody

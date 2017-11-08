@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.app.model.AjaxJson;
 import com.base.commons.constant.MessageConstant;
 import com.base.controller.BaseController;
+import com.base.model.AjaxJson;
 import com.base.model.Page;
 import com.base.model.ShopType;
 import com.base.service.BShopTypeService;

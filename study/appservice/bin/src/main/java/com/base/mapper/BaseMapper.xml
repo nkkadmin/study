@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.base.mapper.BaseMapper" >
+   
+   
+   <select id="queryByPK" resultType="java.util.Map">
+   	  select * from ${paramMap.tableName} where id = #{paramMap.id,jdbcType=DECIMAL} and statu = '1' 
+   </select>
+   
+   <select id="queryForListAll" resultType="java.util.Map">
+   	 select * FROM ${paramMap.tableName} where statu = '1'
+   	 <foreach collection="paramMap" index="key" item="value" separator=" and ">
+   	 	<if test="key != 'tableName'">
+   	 		and ${key} like '%${value}%'
+   	 	</if>
+   	 </foreach>
+   	  order by id desc
+   </select>
+   
+   <select id="deleteDataByPK">
+   	  delete from ${paramMap.tableName} where id = #{paramMap.id,jdbcType=DECIMAL}
+   </select>
+   
+   <update id="updateByPK">
+   	  update ${tableName}
+   	  <set>
+   	  	 <foreach collection="paramMap" index="key" item="value" separator=",">
+   	  	 	<if test="key != 'id'">
+		 		${key} = #{value,jdbcType=VARCHAR}	 	
+   	  	 	</if>
+   	  	 </foreach>
+   	  </set> 
+   	  where id = #{id,jdbcType=DECIMAL}
+   </update>
+   
+   <insert id="insertData">
+   	  insert into ${tableName}
+   	  (
+   	  	<foreach collection="paramMap" index="key" item="value" separator=",">
+   	  		${key}
+   	  	</foreach>
+   	  ) values (
+   	  	<foreach collection="paramMap" index="key" item="value" separator=",">
+   	  		#{value,jdbcType=VARCHAR}
+   	  	</foreach>
+   	  )
+   </insert>
+   
+</mapper>
